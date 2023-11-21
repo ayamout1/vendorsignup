@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('vendor_form');
 });
 Route::get('/vendor-form', function () {
     return view('vendor_form');  // This is the name of your blade file without .blade.php

@@ -3,20 +3,11 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-
-Use App\Models\Vendor;
-Use App\Models\Address;
-Use App\Models\AgreementForm;
-Use App\Models\Capability;
-Use App\Models\Equipment;
-Use App\Models\Insurance;
-Use App\Models\ServiceFee;
-Use App\Models\W9Submission;
-Use App\Models\User;
+use Livewire\WithFileUploads;
+use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
-use Livewire\WithFileUploads;
 use PDF;
 use Str;
 
@@ -27,40 +18,17 @@ class MultiStepForm extends Component
     public $addresses = [['address' => '', 'address2' => '', 'city' => '', 'state' => '', 'postal' => '', 'country' => '', 'address_type' => 'billing']];
     public $step = 1;
 
-
+    // Vendor information fields
     public $vendor_name, $owner_name, $owner_phone, $vendor_type, $vendor_phone, $vendor_email, $vendor_fax, $vendor_website;
 
- // Step 1 - Address Information
- public $address, $address2, $city, $state, $postal, $country, $address_type, $user_id;
+    // Insurance Information fields
+    public $vehicle_file, $vehicle_effective_date, $vehicle_expiration_date;
+    public $general_liability_file, $general_effective_date, $general_expiry_date;
+    public $worker_file, $worker_effective_date, $worker_expiry_date;
 
- // Step 2 - Insurance Information
- public $vehicle_file, $vehicle_effective_date, $vehicle_expiration_date;
- public $general_liability_file, $general_effective_date, $general_expiry_date;
- public $worker_file, $worker_effective_date, $worker_expiry_date;
+    // Other steps fields...
 
- // Step 3 - Capabilities
- public $geographic_service_area_miles, $no_mileage_charge_area_miles;
- public $service_response_time_in_service_area, $service_response_time_in_no_charge_area;
- public $workmanship_warranty, $supplies_materials_warranty;
- public $standard_markup_percentage, $vehicles_fully_equipped;
- public $special_notes;
-
- // Step 4 - Service Fee Information
- public $concrete_per_yard, $rebar, $survey, $permit_staff_per_hour, $neon_per_unit_general;
- public $backhoe_minimum, $auger_minimum, $industrial_crane_minimum, $high_risk_staging;
- public $truck_1_technician_per_hour, $truck_2_technician_per_hour;
-
- // Step 5 - Equipment Information
- public $equipment_type, $make_and_model, $reach, $quantity, $notes;
-
- // Step 6 - W9 Submission
- public $file_path;
-
- // Step 7 - Agreement Information
- public $is_certified, $signature_path, $name, $title;
-
-
- public $signatureImage;
+    public $is_certified, $signature_path, $name, $title;  // Agreement Information fields
 
     public function mount()
     {
@@ -226,52 +194,6 @@ foreach ($this->addresses as $address) {
             }
 
             // Other related creations like Capability, Equipment, Service Fee, W9Submission...
-// Create Insurance for Vendor
-$vendor->insurance()->create([
-    'vehicle_effective_date' => $this->vehicle_effective_date,
-    'vehicle_expiration_date' => $this->vehicle_expiration_date,
-    'general_effective_date' => $this->general_effective_date,
-    'general_expiry_date' => $this->general_expiry_date,
-    'worker_effective_date' => $this->worker_effective_date,
-    'worker_expiry_date' => $this->worker_expiry_date,
-]);
-
-// Create Capabilities for Vendor
-$vendor->capability()->create([
-    'geographic_service_area_miles' => $this->geographic_service_area_miles,
-    'no_mileage_charge_area_miles' => $this->no_mileage_charge_area_miles,
-    'service_response_time_in_service_area' => $this->service_response_time_in_service_area,
-    'service_response_time_in_no_charge_area' => $this->service_response_time_in_no_charge_area,
-    'workmanship_warranty' => $this->workmanship_warranty,
-    'supplies_materials_warranty' => $this->supplies_materials_warranty,
-    'standard_markup_percentage' => $this->standard_markup_percentage,
-    'vehicles_fully_equipped' => $this->vehicles_fully_equipped,
-    'special_notes' => $this->special_notes,
-]);
-
-// Create Equipment for Vendor
-$vendor->equipment()->create([
-    'equipment_type' => $this->equipment_type,
-    'make_and_model' => $this->make_and_model,
-    'reach' => $this->reach,
-    'quantity' => $this->quantity,
-    'notes' => $this->notes,
-]);
-
-// Create Service Fee for Vendor
-$vendor->serviceFee()->create([
-    'concrete_per_yard' => $this->concrete_per_yard,
-    'rebar' => $this->rebar,
-    'survey' => $this->survey,
-    'permit_staff_per_hour' => $this->permit_staff_per_hour,
-    'neon_per_unit_general' => $this->neon_per_unit_general,
-    'backhoe_minimum' => $this->backhoe_minimum,
-    'auger_minimum' => $this->auger_minimum,
-    'industrial_crane_minimum' => $this->industrial_crane_minimum,
-    'high_risk_staging' => $this->high_risk_staging,
-    'truck_1_technician_per_hour' => $this->truck_1_technician_per_hour,
-    'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
-]);
 
             $this->resetForm();
         });
@@ -307,22 +229,19 @@ $vendor->serviceFee()->create([
     {
         $data = [
             'vendor_name' => $this->vendor_name,
-            'owner_name' => $this->owner_name,
-            'name' => $this->name,
-            'title' => $this->title,
-             // Used as a signature
+            'owner_name' => $this->owner_name, // Used as a signature
             // ... other relevant data ...
         ];
 
-        $pdf = PDF::loadView('pdf.vendor_agreement', $data);
-        $pdfFileName = 'agreement_' . $this->vendor_name . '_' . date('mdY') . '.pdf';
+        $pdf = PDF::loadView('pdf.confidentiality_agreement', $data);
+        $pdfFileName = 'agreement_' . $this->vendor_name . '_' . time() . '.pdf';
         $pdfFilePath = 'agreements/' . $pdfFileName;
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here
 
-
+        return response()->json(['download_url' => $downloadUrl]);
     }
 
 

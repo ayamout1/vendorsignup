@@ -64,6 +64,7 @@ return [
             'bucket' => env('LINODE_BUCKET'),
             'url' => env('LINODE_URL'),
             'endpoint' => 'https://us-southeast-1.linodeobjects.com',
+            'visibility' => 'public',
         ],
 
 

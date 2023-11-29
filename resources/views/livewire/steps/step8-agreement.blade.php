@@ -7,13 +7,6 @@
             @error('is_certified') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
 
-        <!-- Upload Signature -->
-        <div class="mb-2">
-            <label for="signature_path" class="block text-sm font-medium text-gray-700">Upload Signature (Accepts .png, .jpg, .pdf, .jpeg formats.)</label>
-            <input wire:model="signature_path" type="file" id="signature_path" name="signature_path" class="mt-1 p-2 w-full border rounded-md">
-            @error('signature_path') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
-
         <!-- Name -->
         <div class="mb-2">
             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>

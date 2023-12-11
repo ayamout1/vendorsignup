@@ -384,6 +384,15 @@ class MultiStepForm extends Component
             'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
         ]);
 
+        $vendor->AgreementForm()->create([
+
+            'name' => $this->name,
+            'title' => $this->title, // You need to provide a value for the name field
+            'created_at' => now(),
+            'updated_at' => now(),
+            // other fields...
+        ]);
+
     }
 
 

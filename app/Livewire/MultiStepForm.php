@@ -477,6 +477,17 @@ private function generateFileName($vendorName, $fileType, $extension)
                 'signature_path' => $pdfFilePath
             ]
         );
+        $suiteCrmVendor = DB::connection('suitecrm')->table('vsf_vendornetwork')
+        ->where('vendor_email_c', $this->vendor_email)
+        ->first();
+
+if ($suiteCrmVendor) {
+$suiteCrmVendorId = $suiteCrmVendor->id; // Assuming 'id' is the column name for the vendor ID in SuiteCRM
+
+// Update the SuiteCRM record with the PDF signature path
+DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $suiteCrmVendorId)->update([
+'signature_path_c' => $pdfFilePath,
+]);
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here
@@ -502,8 +513,3 @@ private function generateFileName($vendorName, $fileType, $extension)
     }
 
     }
-
-
-
-
-

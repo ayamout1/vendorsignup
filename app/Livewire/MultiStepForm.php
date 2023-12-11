@@ -433,24 +433,24 @@ private function generateFileName($vendorName, $fileType, $extension)
         if ($this->vehicle_file) {
             $vehicleFileName = $this->generateFileName($this->vendor_name, 'vehicle_file', $this->vehicle_file->extension());
             $vehicleFilePath = $this->vehicle_file->storeAs('insurance', $vehicleFileName, 'linode');
-            $vendor->insurance()->updateOrCreate([], ['vehicle_file' => $vehicleFilePath]);
+            $vendor->insurance()->updateOrCreate([], ['vehicle_file' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$vehicleFilePath]);
         }
 
         if ($this->general_liability_file) {
             $generalFileName = $this->generateFileName($this->vendor_name, 'general_liability_file', $this->general_liability_file->extension());
             $generalFilePath = $this->general_liability_file->storeAs('insurance', $generalFileName, 'linode');
-            $vendor->insurance()->updateOrCreate([], ['general_liability_file' => $generalFilePath]);
+            $vendor->insurance()->updateOrCreate([], ['general_liability_file' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$generalFilePath]);
         }
 
         if ($this->worker_file) {
             $workerFileName = $this->generateFileName($this->vendor_name, 'worker_file', $this->worker_file->extension());
             $workerFilePath = $this->worker_file->storeAs('insurance', $workerFileName, 'linode');
-            $vendor->insurance()->updateOrCreate([], ['worker_file' => $workerFilePath]);
+            $vendor->insurance()->updateOrCreate([], ['worker_file' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$workerFilePath]);
         }
         if ($this->file_path) {
             $w9FileName = $this->generateFileName($this->vendor_name, 'w9', $this->file_path->extension());
             $w9FilePath = $this->file_path->storeAs('w9submission', $w9FileName, 'linode');
-            $vendor->w9submission()->updateOrCreate([], ['file_path' => $w9FilePath]);
+            $vendor->w9submission()->updateOrCreate([], ['file_path' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$w9FilePath]);
         }
     }
 
@@ -474,7 +474,7 @@ private function generateFileName($vendorName, $fileType, $extension)
             ['name' => $this->name], // Attributes to find the model by
             [
                 'title' => $this->title, // Other attributes to update or create with
-                'signature_path' => $pdfFilePath
+                'signature_path' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$pdfFilePath
             ]
         );
         $suiteCrmVendor = DB::connection('suitecrm')->table('vsf_vendornetwork')
@@ -486,7 +486,7 @@ $suiteCrmVendorId = $suiteCrmVendor->id; // Assuming 'id' is the column name for
 
 // Update the SuiteCRM record with the PDF signature path
 DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $suiteCrmVendorId)->update([
-'signature_path_c' => $pdfFilePath,
+'signature_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$pdfFilePath,
 ]);
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 

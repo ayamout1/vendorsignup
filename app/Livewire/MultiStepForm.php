@@ -470,10 +470,12 @@ private function generateFileName($vendorName, $fileType, $extension)
         $pdfFileName = 'agreement_' . $this->vendor_name . '_' . date('mdY') . '.pdf';
         $pdfFilePath = 'agreements/' . $pdfFileName;
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
-        $vendor->AgreementForm()->updateOrCreate([
-            ['name' => $this->name,
-            'title' => $this->title,]
-        ], ['signature_path' => $pdfFilePath]);
+        $vendor->AgreementForm()->updateOrCreate(
+            ['name' => $this->name], // Attributes to find the model by
+            [
+                'signature_path' => $pdfFilePath
+            ]
+        );
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here

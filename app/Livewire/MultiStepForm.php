@@ -491,7 +491,7 @@ DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $suiteCrmVen
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here
-
+}
 
     }
 

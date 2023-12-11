@@ -397,7 +397,27 @@ class MultiStepForm extends Component
 
     $this->resetForm();
 }
+/**
+ * Generate a unique file name for an uploaded file.
+ *
+ * @param string $vendorName The name of the vendor.
+ * @param string $fileType The type of file (e.g., 'vehicle_file', 'general_liability_file').
+ * @param string $extension The file extension.
+ * @return string The generated file name.
+ */
+private function generateFileName($vendorName, $fileType, $extension)
+{
+    // Clean the vendor name to be used in a file name
+    $cleanVendorName = Str::slug($vendorName);
 
+    // Generate a random string for uniqueness
+    $randomString = Str::random(8);
+
+    // Construct the file name
+    $fileName = "{$cleanVendorName}_{$fileType}_{$randomString}.{$extension}";
+
+    return $fileName;
+}
 
     private function handleFileUploads($vendor)
     {

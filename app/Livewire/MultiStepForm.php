@@ -473,6 +473,7 @@ private function generateFileName($vendorName, $fileType, $extension)
         $vendor->AgreementForm()->updateOrCreate(
             ['name' => $this->name], // Attributes to find the model by
             [
+                'title' => $this->title, // Other attributes to update or create with
                 'signature_path' => $pdfFilePath
             ]
         );

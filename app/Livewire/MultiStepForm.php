@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use PDF;
 use Str;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class MultiStepForm extends Component
 {
@@ -185,97 +187,217 @@ class MultiStepForm extends Component
             ]);
         }
     }
-    public function submitForm()
+
+
+
+    private function submitToSuiteCRM()
     {
-        DB::transaction(function () {
-            $user = User::create([
-                'name' => $this->vendor_name,
-                'email' => $this->vendor_email,
-                'password' => bcrypt($this->vendor_phone),
+        $vendorId = Str::uuid(); // Generating a UUID for the vendor record
+
+        // Insert vendor data into SuiteCRM's vsf_vendornetwork table
+        DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
+            'id' => $vendorId,
+            'vendor_name_c' => $this->vendor_name,
+            'owner_name_c' => $this->owner_name,
+            'owner_phone_c' => $this->owner_phone,
+            'vendor_type_c' => $this->vendor_type,
+            'vendor_phone_c' => $this->vendor_phone,
+            'vendor_email_c' => $this->vendor_email,
+            'vendor_fax_c' => $this->vendor_fax,
+            'vendor_website_c' => $this->vendor_website,
+
+            // Insurance Information
+            'vehicle_file_path_c' => $this->vehicle_file, // Assuming this will be a file path
+            'vehicle_effective_date_c' => $this->vehicle_effective_date,
+            'vehicle_expiration_date_c' => $this->vehicle_expiration_date,
+            'general_liability_file_path_c' => $this->general_liability_file, // File path
+            'general_effective_date_c' => $this->general_effective_date,
+            'general_expiry_date_c' => $this->general_expiry_date,
+            'worker_file_path_c' => $this->worker_file, // File path
+            'worker_effective_date_c' => $this->worker_effective_date,
+            'worker_expiry_date_c' => $this->worker_expiry_date,
+
+            // Capabilities
+            'geographic_service_area_miles_' => $this->geographic_service_area_miles,
+            'no_mileage_charge_area_miles_c' => $this->no_mileage_charge_area_miles,
+            'service_response_time_in_servi' => $this->service_response_time_in_service_area,
+            'service_response_time_in_no_ch' => $this->service_response_time_in_no_charge_area,
+            'workmanship_warranty_c' => $this->workmanship_warranty,
+            'supplies_materials_warranty_c' => $this->supplies_materials_warranty,
+            'standard_markup_percentage_c' => $this->standard_markup_percentage,
+            'vehicles_fully_equipped_c' => $this->vehicles_fully_equipped,
+            'special_notes_c' => $this->special_notes,
+
+            // Service Fee Information
+            'concrete_per_yard_c' => $this->concrete_per_yard,
+            'rebar_c' => $this->rebar,
+            'survey_c' => $this->survey,
+            'permit_staff_per_hour_c' => $this->permit_staff_per_hour,
+            'neon_per_unit_general_c' => $this->neon_per_unit_general,
+            'backhoe_minimum_c' => $this->backhoe_minimum,
+            'auger_minimum_c' => $this->auger_minimum,
+            'industrial_crane_minimum_c' => $this->industrial_crane_minimum,
+            'high_risk_staging_c' => $this->high_risk_staging,
+            'truck_1_technician_per_hour_c' => $this->truck_1_technician_per_hour,
+            'truck_2_technician_per_hour_c' => $this->truck_2_technician_per_hour,
+
+            // Equipment Information
+            'equipment_type_c' => $this->equipment_type,
+            'make_and_model_c' => $this->make_and_model,
+            'reach_c' => $this->reach,
+            'quantity_c' => $this->quantity,
+            'notes_c' => $this->notes,
+
+            // W9 Submission
+            'file_path_c' => $this->file_path, // Assuming this will be a file path
+
+            // Agreement Information
+            'is_certified_c' => $this->is_certified,
+            'signature_path_c' => $this->signature_path,
+            'agreement_name_c' => $this->name,
+            'agreement_title_c' => $this->title,
+
+        ]);
+
+
+        foreach ($this->addresses as $address) {
+            // Insert each address into SuiteCRM's vsf_addressnew table
+            $addressId = Str::uuid(); // Generating a UUID for the address record
+            DB::connection('suitecrm')->table('vsf_addressnew')->insert([
+                'id' => $addressId,
+                'name' => $this->vendor_name . ' Address',
+                'date_entered' => now(),
+                'date_modified' => now(),
+                'modified_user_id' => $vendorId,
+                'created_by' => $vendorId,
+                'description' => 'Address for ' . $this->vendor_name,
+                'deleted' => 0,
+                'assigned_user_id' => $vendorId,
+                'address_cnew_city' => $address['city'],
+                'address_cnew_state' => $address['state'],
+                'address_cnew_postalcode' => $address['postal'],
+                'address_cnew_country' => $address['country'],
+                'address_cnew' => $address['address'],
+                'address2_cnew' => $address['address2'],
+                'address_type_cnew' => $address['address_type'],
+                // Add other fields as per your table's structure
             ]);
 
-            $vendor = Vendor::create([
-                'vendor_name' => $this->vendor_name,
-                'owner_name' => $this->owner_name,
-                'owner_phone' => $this->owner_phone,
-                'vendor_type' => $this->vendor_type,
-                'vendor_phone' => $this->vendor_phone,
-                'vendor_email' => $this->vendor_email,
-                'vendor_fax' => $this->vendor_fax,
-                'vendor_website' => $this->vendor_website,
-                'user_id' => $user->id,
+            // Insert a record in the relationship table
+            DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_c')->insert([
+                'id' => Str::uuid(),
+                'date_modified' => now(),
+                'deleted' => 0,
+                'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $vendorId,
+                'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
+        }
+        }
+
+        // ... Any other SuiteCRM related operations ...
 
 
-foreach ($this->addresses as $address) {
-    $vendor->address()->create([
-        'address' => $address['address'],
-        'address2' => $address['address2'],
-        'city' => $address['city'],
-        'state' => $address['state'],
-        'postal' => $address['postal'],
-        'country' => $address['country'],
-        'address_type' => $address['address_type'],
-    ]);
+    private function submitToLaravelDB()
+    {
+        $user = User::create([
+            'name' => $this->vendor_name,
+            'email' => $this->vendor_email,
+            'password' => bcrypt($this->vendor_phone),
+        ]);
+
+        $vendor = Vendor::create([
+            'vendor_name' => $this->vendor_name,
+            'owner_name' => $this->owner_name,
+            'owner_phone' => $this->owner_phone,
+            'vendor_type' => $this->vendor_type,
+            'vendor_phone' => $this->vendor_phone,
+            'vendor_email' => $this->vendor_email,
+            'vendor_fax' => $this->vendor_fax,
+            'vendor_website' => $this->vendor_website,
+            'user_id' => $user->id,
+        ]);
+
+
+        foreach ($this->addresses as $address) {
+            $vendor->address()->create([
+                'address' => $address['address'],
+                'address2' => $address['address2'],
+                'city' => $address['city'],
+                'state' => $address['state'],
+                'postal' => $address['postal'],
+                'country' => $address['country'],
+                'address_type' => $address['address_type'],
+            ]);
+        }
+
+                    $this->handleFileUploads($vendor);
+
+                    if ($this->is_certified) {
+                        $this->generateAndStorePdf($vendor);
+                    }
+
+                    // Other related creations like Capability, Equipment, Service Fee, W9Submission...
+        // Create Insurance for Vendor
+        $vendor->insurance()->create([
+            'vehicle_effective_date' => $this->vehicle_effective_date,
+            'vehicle_expiration_date' => $this->vehicle_expiration_date,
+            'general_effective_date' => $this->general_effective_date,
+            'general_expiry_date' => $this->general_expiry_date,
+            'worker_effective_date' => $this->worker_effective_date,
+            'worker_expiry_date' => $this->worker_expiry_date,
+        ]);
+
+        // Create Capabilities for Vendor
+        $vendor->capability()->create([
+            'geographic_service_area_miles' => $this->geographic_service_area_miles,
+            'no_mileage_charge_area_miles' => $this->no_mileage_charge_area_miles,
+            'service_response_time_in_service_area' => $this->service_response_time_in_service_area,
+            'service_response_time_in_no_charge_area' => $this->service_response_time_in_no_charge_area,
+            'workmanship_warranty' => $this->workmanship_warranty,
+            'supplies_materials_warranty' => $this->supplies_materials_warranty,
+            'standard_markup_percentage' => $this->standard_markup_percentage,
+            'vehicles_fully_equipped' => $this->vehicles_fully_equipped,
+            'special_notes' => $this->special_notes,
+        ]);
+
+        // Create Equipment for Vendor
+        $vendor->equipment()->create([
+            'equipment_type' => $this->equipment_type,
+            'make_and_model' => $this->make_and_model,
+            'reach' => $this->reach,
+            'quantity' => $this->quantity,
+            'notes' => $this->notes,
+        ]);
+
+        // Create Service Fee for Vendor
+        $vendor->serviceFee()->create([
+            'concrete_per_yard' => $this->concrete_per_yard,
+            'rebar' => $this->rebar,
+            'survey' => $this->survey,
+            'permit_staff_per_hour' => $this->permit_staff_per_hour,
+            'neon_per_unit_general' => $this->neon_per_unit_general,
+            'backhoe_minimum' => $this->backhoe_minimum,
+            'auger_minimum' => $this->auger_minimum,
+            'industrial_crane_minimum' => $this->industrial_crane_minimum,
+            'high_risk_staging' => $this->high_risk_staging,
+            'truck_1_technician_per_hour' => $this->truck_1_technician_per_hour,
+            'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
+        ]);
+
+    }
+
+
+    public function submitForm()
+{
+    DB::transaction(function () {
+        $this->submitToSuiteCRM();
+        $this->submitToLaravelDB();
+        // ... Any additional code to be executed after both operations ...
+    });
+
+    $this->resetForm();
 }
 
-            $this->handleFileUploads($vendor);
-
-            if ($this->is_certified) {
-                $this->generateAndStorePdf($vendor);
-            }
-
-            // Other related creations like Capability, Equipment, Service Fee, W9Submission...
-// Create Insurance for Vendor
-$vendor->insurance()->create([
-    'vehicle_effective_date' => $this->vehicle_effective_date,
-    'vehicle_expiration_date' => $this->vehicle_expiration_date,
-    'general_effective_date' => $this->general_effective_date,
-    'general_expiry_date' => $this->general_expiry_date,
-    'worker_effective_date' => $this->worker_effective_date,
-    'worker_expiry_date' => $this->worker_expiry_date,
-]);
-
-// Create Capabilities for Vendor
-$vendor->capability()->create([
-    'geographic_service_area_miles' => $this->geographic_service_area_miles,
-    'no_mileage_charge_area_miles' => $this->no_mileage_charge_area_miles,
-    'service_response_time_in_service_area' => $this->service_response_time_in_service_area,
-    'service_response_time_in_no_charge_area' => $this->service_response_time_in_no_charge_area,
-    'workmanship_warranty' => $this->workmanship_warranty,
-    'supplies_materials_warranty' => $this->supplies_materials_warranty,
-    'standard_markup_percentage' => $this->standard_markup_percentage,
-    'vehicles_fully_equipped' => $this->vehicles_fully_equipped,
-    'special_notes' => $this->special_notes,
-]);
-
-// Create Equipment for Vendor
-$vendor->equipment()->create([
-    'equipment_type' => $this->equipment_type,
-    'make_and_model' => $this->make_and_model,
-    'reach' => $this->reach,
-    'quantity' => $this->quantity,
-    'notes' => $this->notes,
-]);
-
-// Create Service Fee for Vendor
-$vendor->serviceFee()->create([
-    'concrete_per_yard' => $this->concrete_per_yard,
-    'rebar' => $this->rebar,
-    'survey' => $this->survey,
-    'permit_staff_per_hour' => $this->permit_staff_per_hour,
-    'neon_per_unit_general' => $this->neon_per_unit_general,
-    'backhoe_minimum' => $this->backhoe_minimum,
-    'auger_minimum' => $this->auger_minimum,
-    'industrial_crane_minimum' => $this->industrial_crane_minimum,
-    'high_risk_staging' => $this->high_risk_staging,
-    'truck_1_technician_per_hour' => $this->truck_1_technician_per_hour,
-    'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
-]);
-
-            $this->resetForm();
-        });
-    }
 
     private function handleFileUploads($vendor)
     {
@@ -310,6 +432,7 @@ $vendor->serviceFee()->create([
             'owner_name' => $this->owner_name,
             'name' => $this->name,
             'title' => $this->title,
+
              // Used as a signature
             // ... other relevant data ...
         ];
@@ -318,6 +441,7 @@ $vendor->serviceFee()->create([
         $pdfFileName = 'agreement_' . $this->vendor_name . '_' . date('mdY') . '.pdf';
         $pdfFilePath = 'agreements/' . $pdfFileName;
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
+        $vendor->AgreementForm()->updateOrCreate([], ['signature_path' => $pdfFilePath]);
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here
@@ -328,7 +452,7 @@ $vendor->serviceFee()->create([
 
     public function resetForm()
     {
-        $this->reset(['step', 'vendor_name', 'address', /* other fields... */]);
+        $this->reset();
     }
 
     public function addAddress()
@@ -342,5 +466,9 @@ $vendor->serviceFee()->create([
         $this->addresses = array_values($this->addresses);
     }
 
+    }
 
-}
+
+
+
+

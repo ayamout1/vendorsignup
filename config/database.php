@@ -62,6 +62,20 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
+        'suitecrm' => [
+            'driver' => env('SUITECRM_DB_CONNECTION', 'mysql'),
+            'host' => env('SUITECRM_DB_HOST', 'tystools.com'),
+            'port' => env('SUITECRM_DB_PORT', '3306'),
+            'database' => env('SUITECRM_DB_DATABASE', 'crm7'),
+            'username' => env('SUITECRM_DB_USERNAME', 'root'),
+            'password' => env('SUITECRM_DB_PASSWORD', 'SuiteCRM147'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

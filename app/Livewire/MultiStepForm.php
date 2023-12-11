@@ -234,7 +234,7 @@ class MultiStepForm extends Component
             'survey_c' => $this->survey,
             'permit_staff_per_hour_c' => $this->permit_staff_per_hour,
             'neon_per_unit_general_c' => $this->neon_per_unit_general,
-            'backhoe_minimum_c' => $this->backhoe_minimum,
+     //       'backhoe_minimum_c' => $this->backhoe_minimum,
             'auger_minimum_c' => $this->auger_minimum,
             'industrial_crane_minimum_c' => $this->industrial_crane_minimum,
             'high_risk_staging_c' => $this->high_risk_staging,

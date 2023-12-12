@@ -288,7 +288,7 @@ class MultiStepForm extends Component
                 'id' => Str::uuid(),
                 'date_modified' => now(),
                 'deleted' => 0,
-                'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,,
+                'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,
                 'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
         }

@@ -188,7 +188,7 @@ class MultiStepForm extends Component
         }
     }
 
-    private $vendorId; // Add this line to declare the property
+    public $vendorId; // Add this line to declare the property
 
     private function submitToSuiteCRM()
     {

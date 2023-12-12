@@ -188,15 +188,15 @@ class MultiStepForm extends Component
         }
     }
 
-
+    private $vendorId; // Add this line to declare the property
 
     private function submitToSuiteCRM()
     {
-        $vendorId = Str::uuid(); // Generating a UUID for the vendor record
+        $this->vendorId = Str::uuid(); // Assign the UUID to the class property
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
-            'id' => $vendorId,
+            'id' => $this->vendorId,
             'vendor_name_c' => $this->vendor_name,
             'owner_name_c' => $this->owner_name,
             'owner_phone_c' => $this->owner_phone,
@@ -268,11 +268,11 @@ class MultiStepForm extends Component
                 'name' => $this->vendor_name . ' Address',
                 'date_entered' => now(),
                 'date_modified' => now(),
-                'modified_user_id' => $vendorId,
-                'created_by' => $vendorId,
+                'modified_user_id' => $this->vendorId,
+                'created_by' => $this->vendorId,
                 'description' => 'Address for ' . $this->vendor_name,
                 'deleted' => 0,
-                'assigned_user_id' => $vendorId,
+                'assigned_user_id' => $this->vendorId,
                 'address_cnew_city' => $address['city'],
                 'address_cnew_state' => $address['state'],
                 'address_cnew_postalcode' => $address['postal'],
@@ -288,7 +288,7 @@ class MultiStepForm extends Component
                 'id' => Str::uuid(),
                 'date_modified' => now(),
                 'deleted' => 0,
-                'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $vendorId,
+                'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,,
                 'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
         }
@@ -482,10 +482,9 @@ private function generateFileName($vendorName, $fileType, $extension)
         ->first();
 
 if ($suiteCrmVendor) {
-$suiteCrmVendorId = $suiteCrmVendor->id; // Assuming 'id' is the column name for the vendor ID in SuiteCRM
 
 // Update the SuiteCRM record with the PDF signature path
-DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $suiteCrmVendorId)->update([
+DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId,)->update([
 'signature_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$pdfFilePath,
 ]);
         $downloadUrl = Storage::disk('linode')->url($pdfFilePath);

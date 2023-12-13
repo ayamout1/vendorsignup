@@ -12,7 +12,7 @@ class CreateAgreementFormsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('vendor_id');  // Assuming a user is submitting the form
             $table->boolean('is_certified')->default(false); // For the checkbox to certify agreement
-            $table->text('signature_path')->nullable();  // Store path to signature image or file
+            $table->string('signature_path')->nullable();  // Store path to signature image or file
             $table->string('name');  // Name of the person
             $table->string('title');  // Title/position of the person
             $table->timestamp('submitted_at')->nullable();  // Timestamp when the form was submitted

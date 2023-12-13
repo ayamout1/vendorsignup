@@ -289,6 +289,8 @@ class MultiStepForm extends Component
               // Call handleFileUploads to upload files and get full paths
     $filePaths = $this->handleFileUploads();
 
+    dd($filePaths);
+
     // Update vendor record with the file paths
     DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
         'vehicle_file_path_c' => $filePaths['vehicle'] ?? null,
@@ -510,9 +512,8 @@ private function handleFileUploads($vendor)
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
         $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
         $vendor->AgreementForm()->updateOrCreate(
-            ['name' => $this->name], // Attributes to find the model by
+
             [
-                'title' => $this->title, // Other attributes to update or create with
                 'signature_path' => $downloadUrl
             ]
         );

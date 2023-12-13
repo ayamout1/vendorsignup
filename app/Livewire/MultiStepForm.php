@@ -501,6 +501,7 @@ private function handleFileUploads($vendor)
             'owner_name' => $this->owner_name,
             'name' => $this->name,
             'title' => $this->title,
+            'is_certified' => $this->is_certified,
 
              // Used as a signature
             // ... other relevant data ...
@@ -517,6 +518,7 @@ private function handleFileUploads($vendor)
                 // Replace with the actual attribute if it's different.
                 'name' => $this->name, // or some other unique identifier
                 'title' => $this->title,
+                'is_certified' => $this->is_certified,
             ],
             [
                 'signature_path' => $downloadUrl,

@@ -191,6 +191,107 @@ class MultiStepForm extends Component
 
     public $vendorId; // Add this line to declare the property
 
+
+        // ... Any other SuiteCRM related operations ...
+
+
+    private function submitToLaravelDB()
+    {
+        $user = User::create([
+            'name' => $this->vendor_name,
+            'email' => $this->vendor_email,
+            'password' => bcrypt($this->vendor_phone),
+        ]);
+
+        $vendor = Vendor::create([
+            'vendor_name' => $this->vendor_name,
+            'owner_name' => $this->owner_name,
+            'owner_phone' => $this->owner_phone,
+            'vendor_type' => $this->vendor_type,
+            'vendor_phone' => $this->vendor_phone,
+            'vendor_email' => $this->vendor_email,
+            'vendor_fax' => $this->vendor_fax,
+            'vendor_website' => $this->vendor_website,
+            'user_id' => $user->id,
+        ]);
+
+
+        foreach ($this->addresses as $address) {
+            $vendor->address()->create([
+                'address' => $address['address'],
+                'address2' => $address['address2'],
+                'city' => $address['city'],
+                'state' => $address['state'],
+                'postal' => $address['postal'],
+                'country' => $address['country'],
+                'address_type' => $address['address_type'],
+            ]);
+        }
+
+                    $this->handleFileUploads($vendor);
+
+                    if ($this->is_certified) {
+                        $this->generateAndStorePdf($vendor);
+                    }
+
+                    // Other related creations like Capability, Equipment, Service Fee, W9Submission...
+        // Create Insurance for Vendor
+        $vendor->insurance()->create([
+            'vehicle_effective_date' => $this->vehicle_effective_date,
+            'vehicle_expiration_date' => $this->vehicle_expiration_date,
+            'general_effective_date' => $this->general_effective_date,
+            'general_expiry_date' => $this->general_expiry_date,
+            'worker_effective_date' => $this->worker_effective_date,
+            'worker_expiry_date' => $this->worker_expiry_date,
+        ]);
+
+        // Create Capabilities for Vendor
+        $vendor->capability()->create([
+            'geographic_service_area_miles' => $this->geographic_service_area_miles,
+            'no_mileage_charge_area_miles' => $this->no_mileage_charge_area_miles,
+            'service_response_time_in_service_area' => $this->service_response_time_in_service_area,
+            'service_response_time_in_no_charge_area' => $this->service_response_time_in_no_charge_area,
+            'workmanship_warranty' => $this->workmanship_warranty,
+            'supplies_materials_warranty' => $this->supplies_materials_warranty,
+            'standard_markup_percentage' => $this->standard_markup_percentage,
+            'vehicles_fully_equipped' => $this->vehicles_fully_equipped,
+            'special_notes' => $this->special_notes,
+        ]);
+
+        // Create Equipment for Vendor
+        $vendor->equipment()->create([
+            'equipment_type' => $this->equipment_type,
+            'make_and_model' => $this->make_and_model,
+            'reach' => $this->reach,
+            'quantity' => $this->quantity,
+            'notes' => $this->notes,
+        ]);
+
+        // Create Service Fee for Vendor
+        $vendor->serviceFee()->create([
+            'concrete_per_yard' => $this->concrete_per_yard,
+            'rebar' => $this->rebar,
+            'survey' => $this->survey,
+            'permit_staff_per_hour' => $this->permit_staff_per_hour,
+            'neon_per_unit_general' => $this->neon_per_unit_general,
+            'backhoe_minimum' => $this->backhoe_minimum,
+            'auger_minimum' => $this->auger_minimum,
+            'industrial_crane_minimum' => $this->industrial_crane_minimum,
+            'high_risk_staging' => $this->high_risk_staging,
+            'truck_1_technician_per_hour' => $this->truck_1_technician_per_hour,
+            'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
+        ]);
+
+        $vendor->AgreementForm()->create([
+
+            'name' => $this->name,
+            'title' => $this->title, // You need to provide a value for the name field
+            'created_at' => now(),
+            'updated_at' => now(),
+            // other fields...
+        ]);
+
+    }
     private function submitToSuiteCRM($vendor)
     {
          try {
@@ -314,107 +415,6 @@ class MultiStepForm extends Component
             Log::error('Error in submitToSuiteCRM: ' . $e->getMessage());
             // You may want to return or handle this error appropriately
         }
-    }
-
-        // ... Any other SuiteCRM related operations ...
-
-
-    private function submitToLaravelDB()
-    {
-        $user = User::create([
-            'name' => $this->vendor_name,
-            'email' => $this->vendor_email,
-            'password' => bcrypt($this->vendor_phone),
-        ]);
-
-        $vendor = Vendor::create([
-            'vendor_name' => $this->vendor_name,
-            'owner_name' => $this->owner_name,
-            'owner_phone' => $this->owner_phone,
-            'vendor_type' => $this->vendor_type,
-            'vendor_phone' => $this->vendor_phone,
-            'vendor_email' => $this->vendor_email,
-            'vendor_fax' => $this->vendor_fax,
-            'vendor_website' => $this->vendor_website,
-            'user_id' => $user->id,
-        ]);
-
-
-        foreach ($this->addresses as $address) {
-            $vendor->address()->create([
-                'address' => $address['address'],
-                'address2' => $address['address2'],
-                'city' => $address['city'],
-                'state' => $address['state'],
-                'postal' => $address['postal'],
-                'country' => $address['country'],
-                'address_type' => $address['address_type'],
-            ]);
-        }
-
-                    $this->handleFileUploads($vendor);
-
-                    if ($this->is_certified) {
-                        $this->generateAndStorePdf($vendor);
-                    }
-
-                    // Other related creations like Capability, Equipment, Service Fee, W9Submission...
-        // Create Insurance for Vendor
-        $vendor->insurance()->create([
-            'vehicle_effective_date' => $this->vehicle_effective_date,
-            'vehicle_expiration_date' => $this->vehicle_expiration_date,
-            'general_effective_date' => $this->general_effective_date,
-            'general_expiry_date' => $this->general_expiry_date,
-            'worker_effective_date' => $this->worker_effective_date,
-            'worker_expiry_date' => $this->worker_expiry_date,
-        ]);
-
-        // Create Capabilities for Vendor
-        $vendor->capability()->create([
-            'geographic_service_area_miles' => $this->geographic_service_area_miles,
-            'no_mileage_charge_area_miles' => $this->no_mileage_charge_area_miles,
-            'service_response_time_in_service_area' => $this->service_response_time_in_service_area,
-            'service_response_time_in_no_charge_area' => $this->service_response_time_in_no_charge_area,
-            'workmanship_warranty' => $this->workmanship_warranty,
-            'supplies_materials_warranty' => $this->supplies_materials_warranty,
-            'standard_markup_percentage' => $this->standard_markup_percentage,
-            'vehicles_fully_equipped' => $this->vehicles_fully_equipped,
-            'special_notes' => $this->special_notes,
-        ]);
-
-        // Create Equipment for Vendor
-        $vendor->equipment()->create([
-            'equipment_type' => $this->equipment_type,
-            'make_and_model' => $this->make_and_model,
-            'reach' => $this->reach,
-            'quantity' => $this->quantity,
-            'notes' => $this->notes,
-        ]);
-
-        // Create Service Fee for Vendor
-        $vendor->serviceFee()->create([
-            'concrete_per_yard' => $this->concrete_per_yard,
-            'rebar' => $this->rebar,
-            'survey' => $this->survey,
-            'permit_staff_per_hour' => $this->permit_staff_per_hour,
-            'neon_per_unit_general' => $this->neon_per_unit_general,
-            'backhoe_minimum' => $this->backhoe_minimum,
-            'auger_minimum' => $this->auger_minimum,
-            'industrial_crane_minimum' => $this->industrial_crane_minimum,
-            'high_risk_staging' => $this->high_risk_staging,
-            'truck_1_technician_per_hour' => $this->truck_1_technician_per_hour,
-            'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
-        ]);
-
-        $vendor->AgreementForm()->create([
-
-            'name' => $this->name,
-            'title' => $this->title, // You need to provide a value for the name field
-            'created_at' => now(),
-            'updated_at' => now(),
-            // other fields...
-        ]);
-
     }
 
 

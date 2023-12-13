@@ -489,7 +489,7 @@ private function handleFileUploads($vendor)
 
 
 
-    return $filePaths;
+     dd($filePaths);
 
 }
 

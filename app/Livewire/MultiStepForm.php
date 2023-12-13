@@ -286,7 +286,6 @@ class MultiStepForm extends Component
                 // Add other fields as per your table's structure
             ]);
 
-
               // Call handleFileUploads to upload files and get full paths
     $filePaths = $this->handleFileUploads();
 
@@ -456,7 +455,7 @@ private function handleFileUploads($vendor)
 
     if ($this->vehicle_file) {
         $vehicleFileName = $this->generateFileName($this->vendor_name, 'vehicle_file', $this->vehicle_file->extension());
-        $vehicleFilePath = $this->vehicle_file->storeAs('insurance', $vehicleFileName, 'linode');
+        $vehicleFilePath = $this->vehicle_file->storeAs('vehicle', $vehicleFileName, 'linode');
         $vehicleFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$vehicleFilePath;
         $vendor->insurance()->updateOrCreate(['vehicle_file' => $vehicleFilePathFull]);
         $filePaths['vehicle'] = $vehicleFilePathFull;
@@ -464,7 +463,7 @@ private function handleFileUploads($vendor)
 
     if ($this->general_liability_file) {
         $generalFileName = $this->generateFileName($this->vendor_name, 'general_liability_file', $this->general_liability_file->extension());
-        $generalFilePath = $this->general_liability_file->storeAs('insurance', $generalFileName, 'linode');
+        $generalFilePath = $this->general_liability_file->storeAs('general', $generalFileName, 'linode');
         $generalFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$generalFilePath;
         $vendor->insurance()->updateOrCreate(['general_liability_file' => $generalFilePathFull]);
         $filePaths['general_liability'] = $generalFilePathFull;
@@ -472,7 +471,7 @@ private function handleFileUploads($vendor)
 
     if ($this->worker_file) {
         $workerFileName = $this->generateFileName($this->vendor_name, 'worker_file', $this->worker_file->extension());
-        $workerFilePath = $this->worker_file->storeAs('insurance', $workerFileName, 'linode');
+        $workerFilePath = $this->worker_file->storeAs('worker', $workerFileName, 'linode');
         $workerFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$workerFilePath;
         $vendor->insurance()->updateOrCreate(['worker_file' => $workerFilePathFull]);
         $filePaths['worker'] = $workerFilePathFull;
@@ -488,9 +487,8 @@ private function handleFileUploads($vendor)
 
 
 
-    // Repeat for other files
-
     return $filePaths;
+
 }
 
 
@@ -510,22 +508,22 @@ private function handleFileUploads($vendor)
         $pdfFileName = 'agreement_' . $this->vendor_name . '_' . date('mdY') . '.pdf';
         $pdfFilePath = 'agreements/' . $pdfFileName;
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
+        $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
         $vendor->AgreementForm()->updateOrCreate(
             ['name' => $this->name], // Attributes to find the model by
             [
                 'title' => $this->title, // Other attributes to update or create with
-                'signature_path' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$pdfFilePath
+                'signature_path' => $downloadUrl
             ]
         );
 
 
-    $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
+
 // Update the SuiteCRM record with the PDF signature path
 DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
     'signature_path_c' => $downloadUrl,
 ]);
 
-        $downloadUrl = Storage::disk('linode')->url($pdfFilePath);
 
         // You may want to save this URL to your database or take further action here
 }

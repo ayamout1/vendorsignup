@@ -192,7 +192,12 @@ class MultiStepForm extends Component
 
     private function submitToSuiteCRM()
     {
+         try {
         $this->vendorId = Str::uuid(); // Assign the UUID to the class property
+
+        $vendor = new Vendor;
+        $vendor->name = $this->vendor_name; // and other relevant fields
+        $vendor->save();
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
@@ -207,13 +212,10 @@ class MultiStepForm extends Component
             'vendor_website_c' => $this->vendor_website,
 
             // Insurance Information
-            'vehicle_file_path_c' => $this->vehicle_file, // Assuming this will be a file path
             'vehicle_effective_date_c' => $this->vehicle_effective_date,
             'vehicle_expiration_date_c' => $this->vehicle_expiration_date,
-            'general_liability_file_path_c' => $this->general_liability_file, // File path
             'general_effective_date_c' => $this->general_effective_date,
             'general_expiry_date_c' => $this->general_expiry_date,
-            'worker_file_path_c' => $this->worker_file, // File path
             'worker_effective_date_c' => $this->worker_effective_date,
             'worker_expiry_date_c' => $this->worker_expiry_date,
 
@@ -282,6 +284,8 @@ class MultiStepForm extends Component
                 'address_type_cnew' => $address['address_type'],
                 // Add other fields as per your table's structure
             ]);
+
+
               // Call handleFileUploads to upload files and get full paths
     $filePaths = $this->handleFileUploads();
 
@@ -303,7 +307,12 @@ class MultiStepForm extends Component
                 'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
         }
+        } catch (\Exception $e) {
+            // Handle exception
+            Log::error('Error in submitToSuiteCRM: ' . $e->getMessage());
+            // You may want to return or handle this error appropriately
         }
+    }
 
         // ... Any other SuiteCRM related operations ...
 
@@ -507,11 +516,7 @@ private function handleFileUploads($vendor)
                 'signature_path' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/',$pdfFilePath
             ]
         );
-        $suiteCrmVendor = DB::connection('suitecrm')->table('vsf_vendornetwork')
-        ->where('vendor_email_c', $this->vendor_email)
-        ->first();
 
-if ($suiteCrmVendor) {
 
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 // Update the SuiteCRM record with the PDF signature path
@@ -524,7 +529,7 @@ DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendo
         // You may want to save this URL to your database or take further action here
 }
 
-    }
+
 
 
     public function resetForm()

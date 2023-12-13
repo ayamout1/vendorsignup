@@ -516,6 +516,7 @@ private function handleFileUploads($vendor)
                 // Assuming 'name' is a unique identifier for AgreementForm.
                 // Replace with the actual attribute if it's different.
                 'name' => $this->name, // or some other unique identifier
+                'title' => $this->title,
             ],
             [
                 'signature_path' => $downloadUrl,

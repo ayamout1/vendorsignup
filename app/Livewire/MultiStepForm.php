@@ -191,7 +191,7 @@ class MultiStepForm extends Component
 
     public $vendorId; // Add this line to declare the property
 
-    private function submitToSuiteCRM()
+    private function submitToSuiteCRM($vendor)
     {
          try {
         $this->vendorId = Str::uuid(); // Assign the UUID to the class property
@@ -287,9 +287,9 @@ class MultiStepForm extends Component
             ]);
 
               // Call handleFileUploads to upload files and get full paths
-    $filePaths = $this->handleFileUploads();
+    $filePaths = $this->handleFileUploads($vendor);
 
-    dd($filePaths);
+
 
     // Update vendor record with the file paths
     DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
@@ -489,7 +489,7 @@ private function handleFileUploads($vendor)
 
 
 
-     dd($filePaths);
+   return  $filePaths;
 
 }
 

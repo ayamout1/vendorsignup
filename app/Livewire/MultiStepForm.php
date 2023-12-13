@@ -512,9 +512,14 @@ private function handleFileUploads($vendor)
         Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
         $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
         $vendor->AgreementForm()->updateOrCreate(
-
             [
-                'signature_path' => $downloadUrl
+                // Assuming 'name' is a unique identifier for AgreementForm.
+                // Replace with the actual attribute if it's different.
+                'name' => $this->name, // or some other unique identifier
+            ],
+            [
+                'signature_path' => $downloadUrl,
+                // Include other fields if necessary
             ]
         );
 

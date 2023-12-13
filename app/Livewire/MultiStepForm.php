@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use PDF;
 use Str;
+Use Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 

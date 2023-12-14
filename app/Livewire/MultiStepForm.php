@@ -30,6 +30,7 @@ class MultiStepForm extends Component
     public $addresses = [['address' => '', 'address2' => '', 'city' => '', 'state' => '', 'postal' => '', 'country' => '', 'address_type' => 'billing']];
     public $step = 1;
 
+    public $vendor;
 
     public $vendor_name, $owner_name, $owner_phone, $vendor_type, $vendor_phone, $vendor_email, $vendor_fax, $vendor_website;
 
@@ -309,6 +310,8 @@ class MultiStepForm extends Component
             // ... other fields to be updated ...
         ]
     );
+    Log::info('Vendor ID: ' . $vendor->id);
+
     return $vendor;
 
     }
@@ -316,6 +319,7 @@ class MultiStepForm extends Component
     private function submitToSuiteCRM($vendor)
     {
 
+        dd($vendor);
 
         $filePaths = $this->handleFileUploads($vendor);
 

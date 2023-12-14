@@ -61,7 +61,7 @@ class MultiStepForm extends Component
 
  // Step 7 - Agreement Information
  public $is_certified, $signature_path, $name, $title;
- public $vendor;
+
 
  public $signatureImage;
 
@@ -289,7 +289,7 @@ class MultiStepForm extends Component
 
         $vendor->w9Submission()->create([
 
-            'file_path' => $filePaths['file_path'],
+            'file_path' => $filePaths['file_path']  ?? null,
         ]);
 
 
@@ -384,7 +384,7 @@ class MultiStepForm extends Component
             'notes_c' => $this->notes,
 
             // W9 Submission
-            'file_path_c' => $filePaths['w9'] ?? null,
+            'file_path_c' => $filePaths['file_path'] ?? null,
 
             // Agreement Information
             'is_certified_c' => $this->is_certified,
@@ -506,8 +506,8 @@ private function handleFileUploads($vendor)
 
     if ($this->file_path) {
 
-        $w9FilePathFull = $this->uploadFileAndGetPath($this->file_path, 'w9', $this->vendor_name);
-        $filePaths['w9'] = $w9FilePathFull;
+        $w9FilePathFull = $this->uploadFileAndGetPath($this->file_path, 'file_path', $this->vendor_name);
+        $filePaths['file_path'] = $w9FilePathFull;
     }
 
 

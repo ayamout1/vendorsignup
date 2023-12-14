@@ -332,6 +332,7 @@ class MultiStepForm extends Component
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
             'id' => $vendor->id,
+            'name' => $this->vendor_name,
             'vendor_name_c' => $this->vendor_name,
             'owner_name_c' => $this->owner_name,
             'owner_phone_c' => $this->owner_phone,

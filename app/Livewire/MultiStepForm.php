@@ -426,7 +426,8 @@ class MultiStepForm extends Component
                 'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,
                 'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
-        }
+
+    }
         } catch (\Exception $e) {
             // Handle exception
             Log::error('Error in submitToSuiteCRM: ' . $e->getMessage());
@@ -436,19 +437,26 @@ class MultiStepForm extends Component
 
 
     public function submitForm()
-{
-    DB::transaction(function () {
+    {
+        DB::beginTransaction(); // Start transaction
 
- // First, submit to Laravel DB and get the vendor object
- $vendor = $this->submitToLaravelDB();
+        try {
+            // First, submit to Laravel DB and get the vendor object
+            $vendor = $this->submitToLaravelDB();
 
- // Then, pass this vendor object to submit to SuiteCRM
- $this->submitToSuiteCRM($vendor);
-        // ... Any additional code to be executed after both operations ...
-    });
+            // Then, pass this vendor object to submit to SuiteCRM
+            $this->submitToSuiteCRM($vendor);
 
-    $this->resetForm();
-}
+            DB::commit(); // Commit the transaction if all is good
+        } catch (\Exception $e) {
+            DB::rollback(); // Rollback the transaction on error
+            Log::error('Error in submitForm: ' . $e->getMessage());
+            // Handle the error appropriately, maybe return an error response
+        }
+
+        $this->resetForm();
+    }
+
 /**
  * Generate a unique file name for an uploaded file.
  *

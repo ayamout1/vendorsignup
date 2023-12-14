@@ -438,8 +438,11 @@ class MultiStepForm extends Component
     public function submitForm()
 {
     DB::transaction(function () {
-         $this->submitToSuiteCRM();
+
         $this->submitToLaravelDB();
+
+         $this->submitToSuiteCRM();
+
         // ... Any additional code to be executed after both operations ...
     });
 

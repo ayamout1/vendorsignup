@@ -316,7 +316,7 @@ class MultiStepForm extends Component
     private function submitToSuiteCRM($vendor)
     {
 
-
+dd($vendor);
         $filePaths = $this->handleFileUploads($vendor);
 
         $pdfUrl = $this->generateAndStorePdf($vendor);
@@ -384,7 +384,7 @@ class MultiStepForm extends Component
             'notes_c' => $this->notes,
 
             // W9 Submission
-            'file_path_c' => $filePaths['file_path'] ?? null,
+            'file_path_c' => $filePaths['w9'] ?? null,
 
             // Agreement Information
             'is_certified_c' => $this->is_certified,

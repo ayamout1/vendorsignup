@@ -438,24 +438,29 @@ class MultiStepForm extends Component
 
     public function submitForm()
     {
-        DB::beginTransaction(); // Start transaction
+        DB::beginTransaction();
 
         try {
-            // First, submit to Laravel DB and get the vendor object
             $vendor = $this->submitToLaravelDB();
-
-            // Then, pass this vendor object to submit to SuiteCRM
             $this->submitToSuiteCRM($vendor);
-
-            DB::commit(); // Commit the transaction if all is good
+            DB::commit();
         } catch (\Exception $e) {
-            DB::rollback(); // Rollback the transaction on error
-            Log::error('Error in submitForm: ' . $e->getMessage());
-            // Handle the error appropriately, maybe return an error response
+            DB::rollback();
+            $errorId = Str::uuid(); // Generate a unique error ID
+            Log::error("Error {$errorId}: " . $e->getMessage());
+
+            // Return a response for the user
+            return response()->json([
+                'message' => 'An unexpected error occurred. Please try again later.',
+                'errorId' => $errorId,
+                'action' => 'If the problem persists, please contact support with the error ID.'
+            ], 500);
         }
 
         $this->resetForm();
+        return response()->json(['message' => 'Data successfully submitted.']); // On successful completion
     }
+
 
 /**
  * Generate a unique file name for an uploaded file.

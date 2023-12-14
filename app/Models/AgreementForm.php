@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AgreementForm extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'user_id', 'signature', 'name', 'title', 'submitted_at','is_certified'
+        'user_id', 'signature_path', 'name', 'title', 'submitted_at','is_certified'
     ];
 
     protected $casts = [

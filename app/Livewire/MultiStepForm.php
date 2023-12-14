@@ -228,11 +228,11 @@ class MultiStepForm extends Component
             ]);
         }
 
-                    $this->handleFileUploads($vendor);
+        $filePaths = $this->handleFileUploads($vendor);
 
-                    if ($this->is_certified) {
-                        $this->generateAndStorePdf($vendor);
-                    }
+        $vendor->update($filePaths);
+
+
 
                     // Other related creations like Capability, Equipment, Service Fee, W9Submission...
         // Create Insurance for Vendor
@@ -243,6 +243,9 @@ class MultiStepForm extends Component
             'general_expiry_date' => $this->general_expiry_date,
             'worker_effective_date' => $this->worker_effective_date,
             'worker_expiry_date' => $this->worker_expiry_date,
+            'vehicle_file' => $filePaths['vehicle_file'] ?? null,
+            'general_liability_file' => $filePaths['general_liability_file'] ?? null,
+            'worker_file' => $filePaths['worker_file'] ?? null
         ]);
 
         // Create Capabilities for Vendor
@@ -282,24 +285,47 @@ class MultiStepForm extends Component
             'truck_2_technician_per_hour' => $this->truck_2_technician_per_hour,
         ]);
 
-        $vendor->AgreementForm()->create([
+        //w9submissions
 
-            'name' => $this->name,
-            'title' => $this->title, // You need to provide a value for the name field
-            'created_at' => now(),
-            'updated_at' => now(),
-            // other fields...
+        $vendor->w9Submission()->create([
+
+            'file_path' => $filePaths['file_path'],
         ]);
 
+
+                // Generate PDF and get its URL
+                $pdfUrl = $this->generateAndStorePdf($vendor);
+                $filePaths = array_merge($filePaths, ['signature_path' => $pdfUrl]);
+                $vendor->update($filePaths);
+
+    $vendor->AgreementForm()->create(
+
+        [
+            'title' => $this->title,
+            'name' => $this->name,
+            'is_certified' => $this->is_certified,
+            'signature_path' =>  $filePaths['signature_path'],
+
+            // ... other fields to be updated ...
+        ]
+    );
+    return $vendor;
+
     }
+
     private function submitToSuiteCRM($vendor)
     {
-         try {
-        $this->vendorId = Str::uuid(); // Assign the UUID to the class property
 
-        $vendor = new Vendor;
-        $vendor->name = $this->vendor_name; // and other relevant fields
-        $vendor->save();
+        $vendor = $this->vendor;
+        $filePaths = $this->handleFileUploads($vendor);
+
+        $pdfUrl = $this->generateAndStorePdf($vendor);
+        $filePaths = array_merge($filePaths, ['signature_path' => $pdfUrl]);
+
+
+        $vendor->update($filePaths);
+
+         try {
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
@@ -313,6 +339,7 @@ class MultiStepForm extends Component
             'vendor_fax_c' => $this->vendor_fax,
             'vendor_website_c' => $this->vendor_website,
 
+
             // Insurance Information
             'vehicle_effective_date_c' => $this->vehicle_effective_date,
             'vehicle_expiration_date_c' => $this->vehicle_expiration_date,
@@ -320,6 +347,10 @@ class MultiStepForm extends Component
             'general_expiry_date_c' => $this->general_expiry_date,
             'worker_effective_date_c' => $this->worker_effective_date,
             'worker_expiry_date_c' => $this->worker_expiry_date,
+            'vehicle_file_path_c' => $filePaths['vehicle_file'] ?? null,
+            'general_liability_file_path_c' => $filePaths['general_liability_file'] ?? null,
+            'worker_file_path_c' => $filePaths['worker_file'] ?? null,
+
 
             // Capabilities
             'geographic_service_area_miles_' => $this->geographic_service_area_miles,
@@ -353,11 +384,11 @@ class MultiStepForm extends Component
             'notes_c' => $this->notes,
 
             // W9 Submission
-            'file_path_c' => $this->file_path, // Assuming this will be a file path
+            'file_path_c' => $filePaths['file_path'] ?? null,
 
             // Agreement Information
             'is_certified_c' => $this->is_certified,
-            'signature_path_c' => $this->signature_path,
+            'signature_path_c' => $filePaths['signature_path'] ?? null,
             'agreement_name_c' => $this->name,
             'agreement_title_c' => $this->title,
 
@@ -387,20 +418,6 @@ class MultiStepForm extends Component
                 // Add other fields as per your table's structure
             ]);
 
-              // Call handleFileUploads to upload files and get full paths
-    $filePaths = $this->handleFileUploads($vendor);
-
-
-
-    // Update vendor record with the file paths
-    DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
-        'vehicle_file_path_c' => $filePaths['vehicle'] ?? null,
-        'general_liability_file_path_c' => $filePaths['general_liability'] ?? null,
-        'worker_file_path_c' => $filePaths['worker'] ?? null,
-        'file_path_c' => $filePaths['w9'] ?? null,
-        // ... other fields if needed ...
-    ]);
-
             // Insert a record in the relationship table
             DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_c')->insert([
                 'id' => Str::uuid(),
@@ -421,7 +438,7 @@ class MultiStepForm extends Component
     public function submitForm()
 {
     DB::transaction(function () {
-        $this->submitToSuiteCRM();
+         $this->submitToSuiteCRM();
         $this->submitToLaravelDB();
         // ... Any additional code to be executed after both operations ...
     });
@@ -454,38 +471,28 @@ private function handleFileUploads($vendor)
 {
     $filePaths = [];
 
-
     if ($this->vehicle_file) {
-        $vehicleFileName = $this->generateFileName($this->vendor_name, 'vehicle_file', $this->vehicle_file->extension());
-        $vehicleFilePath = $this->vehicle_file->storeAs('vehicle', $vehicleFileName, 'linode');
-        $vehicleFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$vehicleFilePath;
-        $vendor->insurance()->updateOrCreate(['vehicle_file' => $vehicleFilePathFull]);
-        $filePaths['vehicle'] = $vehicleFilePathFull;
+        $vehicleFilePathFull = $this->uploadFileAndGetPath($this->vehicle_file, 'vehicle', $this->vendor_name);
+        $filePaths['vehicle_file'] = $vehicleFilePathFull;
     }
 
     if ($this->general_liability_file) {
-        $generalFileName = $this->generateFileName($this->vendor_name, 'general_liability_file', $this->general_liability_file->extension());
-        $generalFilePath = $this->general_liability_file->storeAs('general', $generalFileName, 'linode');
-        $generalFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$generalFilePath;
-        $vendor->insurance()->updateOrCreate(['general_liability_file' => $generalFilePathFull]);
-        $filePaths['general_liability'] = $generalFilePathFull;
+        $generalFilePathFull = $this->uploadFileAndGetPath($this->general_liability_file, 'general_liability_file', $this->vendor_name);
+        $filePaths['general_liability_file'] = $generalFilePathFull;
     }
 
     if ($this->worker_file) {
-        $workerFileName = $this->generateFileName($this->vendor_name, 'worker_file', $this->worker_file->extension());
-        $workerFilePath = $this->worker_file->storeAs('worker', $workerFileName, 'linode');
-        $workerFilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$workerFilePath;
-        $vendor->insurance()->updateOrCreate(['worker_file' => $workerFilePathFull]);
-        $filePaths['worker'] = $workerFilePathFull;
+
+        $workerFilePathFull = $this->uploadFileAndGetPath($this->worker_file, 'worker_file', $this->vendor_name);
+        $filePaths['worker_file'] = $workerFilePathFull;
     }
 
     if ($this->file_path) {
-        $w9FileName = $this->generateFileName($this->vendor_name, 'w9', $this->file_path->extension());
-        $w9FilePath = $this->file_path->storeAs('w9submission', $w9FileName, 'linode');
-        $w9FilePathFull = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$w9FilePath;
-        $vendor->w9submission()->updateOrCreate(['file_path' => $w9FilePathFull]);
-        $filePaths['w9'] = $w9FilePathFull;
+
+        $w9FilePathFull = $this->uploadFileAndGetPath($this->file_path, 'file_path', $this->vendor_name);
+        $filePaths['file_path'] = $w9FilePathFull;
     }
+
 
 
 
@@ -493,45 +500,56 @@ private function handleFileUploads($vendor)
 
 }
 
+private function uploadFileAndGetPath($file, $folder, $vendorName)
+{
+    $fileName = $this->generateFileName($vendorName, $file->getClientOriginalName(), $file->extension());
+    $filePath = $file->storeAs($folder, $fileName, 'linode');
+    return 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $filePath;
+}
 
-    public function generateAndStorePdf($vendor)
-    {
-        $data = [
-            'vendor_name' => $this->vendor_name,
-            'owner_name' => $this->owner_name,
-            'name' => $this->name,
-            'title' => $this->title,
-            'is_certified' => $this->is_certified,
 
-             // Used as a signature
-            // ... other relevant data ...
-        ];
+public function generateAndStorePdf($vendor)
+{
 
-        $pdf = PDF::loadView('pdf.vendor_agreement', $data);
-        $pdfFileName = 'agreement_' . $this->vendor_name . '_' . date('mdY') . '.pdf';
-        $pdfFilePath = 'agreements/' . $pdfFileName;
-        Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
-        $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
-        $vendor->AgreementForm()->updateOrCreate(
-            [
-                // Assuming 'name' is a unique identifier for AgreementForm.
-                // Replace with the actual attribute if it's different.
-                'name' => $this->name, // or some other unique identifier
-                'title' => $this->title,
-                'is_certified' => $this->is_certified,
-            ],
-            [
-                'signature_path' => $downloadUrl,
-                // Include other fields if necessary
-            ]
-        );
+    $data = [
+        'vendor_name' => $this->vendor_name,
+        'owner_name' => $this->owner_name,
+        'name' => $this->name,
+        'title' => $this->title,
+        'is_certified' => $this->is_certified,
+        'vendor_email' => $this->vendor_email,
 
+        // ... other relevant data ...
+    ];
+
+    $pdf = PDF::loadView('pdf.vendor_agreement', $data);
+    $pdfFileName = 'agreement_' . Str::slug($this->vendor_name) . '_' . date('mdY') . '.pdf';
+    $pdfFilePath = 'agreements/' . $pdfFileName;
+    Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
+    $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
+
+    return $downloadUrl;
+
+    // $vendor->AgreementForm()->updateOrCreate(
+    //     [
+    //         'vendor_email' => $this->vendor_email, // Assuming 'name' is a unique identifier for AgreementForm
+    //         // ... other matching attributes, if any ...
+    //     ],
+    //     [
+    //         'title' => $this->title,
+    //         'name' => $this->name,
+    //         'is_certified' => $this->is_certified,
+    //         'signature_path' => $downloadUrl,
+
+    //         // ... other fields to be updated ...
+    //     ]
+    // );
 
 
 // Update the SuiteCRM record with the PDF signature path
-DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
-    'signature_path_c' => $downloadUrl,
-]);
+// DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
+//     'signature_path_c' => $downloadUrl,
+// ]);
 
 
         // You may want to save this URL to your database or take further action here

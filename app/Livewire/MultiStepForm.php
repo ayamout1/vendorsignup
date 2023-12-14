@@ -329,7 +329,7 @@ class MultiStepForm extends Component
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
-            'id' => $this->vendorId,
+            'id' => $this->vendor->id,
             'vendor_name_c' => $this->vendor_name,
             'owner_name_c' => $this->owner_name,
             'owner_phone_c' => $this->owner_phone,
@@ -439,10 +439,11 @@ class MultiStepForm extends Component
 {
     DB::transaction(function () {
 
-        $this->submitToLaravelDB();
+ // First, submit to Laravel DB and get the vendor object
+ $vendor = $this->submitToLaravelDB();
 
-         $this->submitToSuiteCRM();
-
+ // Then, pass this vendor object to submit to SuiteCRM
+ $this->submitToSuiteCRM($vendor);
         // ... Any additional code to be executed after both operations ...
     });
 
@@ -532,30 +533,6 @@ public function generateAndStorePdf($vendor)
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
     return $downloadUrl;
-
-    // $vendor->AgreementForm()->updateOrCreate(
-    //     [
-    //         'vendor_email' => $this->vendor_email, // Assuming 'name' is a unique identifier for AgreementForm
-    //         // ... other matching attributes, if any ...
-    //     ],
-    //     [
-    //         'title' => $this->title,
-    //         'name' => $this->name,
-    //         'is_certified' => $this->is_certified,
-    //         'signature_path' => $downloadUrl,
-
-    //         // ... other fields to be updated ...
-    //     ]
-    // );
-
-
-// Update the SuiteCRM record with the PDF signature path
-// DB::connection('suitecrm')->table('vsf_vendornetwork')->where('id', $this->vendorId)->update([
-//     'signature_path_c' => $downloadUrl,
-// ]);
-
-
-        // You may want to save this URL to your database or take further action here
 }
 
 

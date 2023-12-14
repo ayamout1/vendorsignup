@@ -310,7 +310,6 @@ class MultiStepForm extends Component
             // ... other fields to be updated ...
         ]
     );
-    Log::info('Vendor ID: ' . $vendor->id);
 
     return $vendor;
 
@@ -332,7 +331,7 @@ class MultiStepForm extends Component
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
-            'id' => $this->vendor->id,
+            'id' => $vendor->id,
             'vendor_name_c' => $this->vendor_name,
             'owner_name_c' => $this->owner_name,
             'owner_phone_c' => $this->owner_phone,

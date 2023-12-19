@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             line-height: 1.5;
             margin: 10px;
-            font-size: 12px;
+            font-size: 9px;
 
         }
         .container {
@@ -17,9 +17,11 @@
             margin: 0 auto;
         }
         h1, h2 {
+            font-size: 13.5px;
             color: #0064ff;
         }
         p, ul {
+            text-align:justify;
             margin-bottom: 20px;
         }
         .section {
@@ -42,19 +44,15 @@
                 <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
                 <p style="margin-top: -15px; margin-bottom: 30px;">Vendor Agreement</p>
             </div>
-            <p>
-                TYS GlobalTM has certain secret, confidential information relating to sign construction, manufacturing processes and techniques to be disclosed to: {{ $vendor_name }}. For the purpose of your study preliminary to your decision as to whether or not you will provide a proposal to fabricate product and/or provide service to TYS GlobalTM. TYS GlobalTM consequently requests that from the date of disclosure to you by TYS GlobalTM, any information be kept secret and confidential by {{ $vendor_name }} and its employees and not be disclosed to others or used for any purpose other than that set forth in the Agreement without TYS GlobalTM's prior written consent. It is understood that the above commitment to secrecy, confidentiality and non-use shall not extend to any matter:
-            </p>
+            <p>TYSGlobal has certain secret, confidential information relating to sign construction, manufacturing processes and techniques to be disclosed to: {{ $vendor_name }}. For the purpose of your study preliminary to your decision as to whether or not you will provide a proposal to fabricate product and/or provide service to TYSGlobal. TYSGlobal consequently requests that from the date of disclosure to you by TYSGlobal, any information be kept secret and confidential by {{ $vendor_name }} and its employees and not be disclosed to others or used for any purpose other than that set forth in the Agreement without TYSGlobal's prior written consent. It is understood that the above commitment to secrecy, confidentiality and non-use shall not extend to any matter:</p>
             <ul>
-                <li>Already in {{ $vendor_name }}'s possession prior to disclosure by TYS GlobalTM, or</li>
-                <li>Which is now or hereafter generally available to the public on a non-confidential basis through no act on the part of {{ $vendor_name }}, or</li>
-                <li>Which is disclosed to {{ $vendor_name }} by a third party having no obligation to TYS GlobalTM to refrain from so doing, which you have called to TYS GlobalTM's attention, in writing, or that you have such knowledge</li>
-                <li>Vendors shall not contact, pursue or promote direct work with any of our clients. Vendors shall notify us if our client has reached out.</li>
-                <li>All correspondence, designs, best practices, processes, procedures, proposals, and any additional information obtained shall remain confidential and proprietary to TYS GlobalTM.</li>
-            </ul>
-            <p>
-                It is understood that no license, either expressed or implied, is hereby granted by TYS GlobalTM under any of this information disclosed pursuant to this Agreement.
-            </p>
+                <li>Already in {{ $vendor_name }}'s possession prior to disclosure by TYSGlobal, or which is now or hereafter generally available to the public on a non-confidential basis through no act on the part of {{ $vendor_name }}, or</li>
+                <li>Which is disclosed to {{ $vendor_name }} by a third party having no obligation to TYSGlobal to refrain from so doing, which you have called to TYSGlobal 's attention, in writing, or that you have such knowledge</li>
+                <li>Vendors shall not contact, pursue, or promote direct work with any of our clients. Vendors shall notify us if our client has reached out.</li>
+                <li>All correspondence, designs, best practices, processes, procedures, proposals, and any additional information obtained shall remain confidential and proprietary to TYSGlobal.</li>
+              </ul>
+              <p>It is understood that no license, either expressed or implied, is hereby granted by TYSGlobal under any of this information disclosed pursuant to this Agreement.</p>
+
         </div>
 
         <div class="section">
@@ -82,10 +80,9 @@
                 <li>Safety steel toe shoes are required on any job-site. Open toe shoes, sandals or canvas type shoes are not allowed while on the job-site at any time.</li>
                 <li>Proper attire shall be worn at all times. No loose, torn or oversized clothing is allowed at the job-site. No short pants, sleeveless shirts or tank tops are allowed on the job-site.</li>
                 <li>Any personnel or visitors to the site will be given thorough safety instructions prior to admission to the site. OSHA guidelines will be your primary requirement. Additionally, there may be safety requirements instituted by our mutual customer.</li>
-            </ul>
-            <p>
-                If at any time the requirements of TYS GlobalTM, the customer or OSHA are not consistent, the most stringent requirement will prevail. Safety for your workers, as well as the general public, is the most important aspect of the work. All requirements must be adhered to without exception. Filled in data below includes acceptance of all forms required by TYS GlobalTM including Confidentiality Agreement, Hold Harmless Agreement, Safety Agreement, terms and conditions herein.
-            </p>
+              </ul>
+              <p>If at any time the requirements of TYSGlobal, the customer or OSHA are not consistent, the most stringent requirement will prevail. Safety for your workers, as well as the general public, is the most important aspect of the work. All requirements must be adhered to without exception. Filled in data below includes acceptance of all forms required by TYSGlobal including Confidentiality Agreement, Hold Harmless Agreement, Safety Agreement, terms and conditions herein.</p>
+
             <div style=" margin-top: 50px;">
                 <p>Signature: </p>
                 <p class="signature" >{{ $name }}</p>

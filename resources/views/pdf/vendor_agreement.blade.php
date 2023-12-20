@@ -28,7 +28,7 @@
             margin-bottom: 20px;
         }
         .section1 {
-            margin-top: 500px;
+            page-break-before: always;
 
         }
         @font-face {

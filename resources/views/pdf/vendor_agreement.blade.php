@@ -28,7 +28,7 @@
             margin-bottom: 20px;
         }
         .section1 {
-            margin-bottom: 350px;
+            margin-bottom: 500px;
 
         }
         @font-face {

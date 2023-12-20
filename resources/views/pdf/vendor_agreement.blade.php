@@ -25,7 +25,11 @@
             margin-bottom: 20px;
         }
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+        .section1 {
+            margin-bottom: 200px;
+
         }
         @font-face {
         font-family: 'Pacifico';
@@ -42,7 +46,7 @@
         <div class="section">
             <div class="col-lg-12 col-sm-12" style="text-align: center;">
                 <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
-                <p style="margin-top: -15px; margin-bottom: 30px;">Vendor Agreement</p>
+                <p style="margin-top: -15px; margin-bottom: 30px; text-align: center;">Vendor Agreement</p>
             </div>
             <p>TYSGlobal has certain secret, confidential information relating to sign construction, manufacturing processes and techniques to be disclosed to: {{ $vendor_name }}. For the purpose of your study preliminary to your decision as to whether or not you will provide a proposal to fabricate product and/or provide service to TYSGlobal. TYSGlobal consequently requests that from the date of disclosure to you by TYSGlobal, any information be kept secret and confidential by {{ $vendor_name }} and its employees and not be disclosed to others or used for any purpose other than that set forth in the Agreement without TYSGlobal's prior written consent. It is understood that the above commitment to secrecy, confidentiality and non-use shall not extend to any matter:</p>
             <ul>
@@ -55,7 +59,7 @@
 
         </div>
 
-        <div class="section">
+        <div class="section1">
             <h2>HOLD HARMLESS AGREEMENT</h2>
             <p>
                 Whereas, {{ $vendor_name }}  (hereinafter "Your Company"), agrees that as an independent contractor who installs, services and maintains signs manufactured, sold and/or leased by TYS GlobalTM. Your company will: Indemnify and hold harmless TYS GlobalTM for any claims, including attorney's fees, incurred, demands or expenses because of bodily injury, personal injury, emotional distress, wrongful death, property damage, loss of use of property, or other related expenses arising out of or in any way performed by Your Company for TYS GlobalTM except those claims due to the sole negligence or willful misconduct of TYS GlobalTM. Maintain in force at all relevant times worker's compensation (or employee accident insurance if allowed by your state in place of worker's compensation insurance) and employer's liability insurance covering all of Your Company's employees, agents, officers and directors who work on, install or maintain TYS GlobalTM signs and furnish to TYS GlobalTM insurance certificates as proof of insurance. This agreement shall be effective immediately upon execution.
@@ -83,7 +87,7 @@
               </ul>
               <p>If at any time the requirements of TYSGlobal, the customer or OSHA are not consistent, the most stringent requirement will prevail. Safety for your workers, as well as the general public, is the most important aspect of the work. All requirements must be adhered to without exception. Filled in data below includes acceptance of all forms required by TYSGlobal including Confidentiality Agreement, Hold Harmless Agreement, Safety Agreement, terms and conditions herein.</p>
 
-            <div style=" margin-top: 50px;">
+            <div style=" margin-top: 30px;">
                 <p>Signature: </p>
                 <p class="signature" >{{ $name }}</p>
                 <p>{{ $title }}</p>

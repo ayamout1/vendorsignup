@@ -28,7 +28,7 @@
             margin-bottom: 20px;
         }
         .section1 {
-            margin-bottom: 500px;
+            margin-top: 500px;
 
         }
         @font-face {
@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="section1">
+        <div class="section">
             <h2>HOLD HARMLESS AGREEMENT</h2>
             <p>
                 Whereas, {{ $vendor_name }}  (hereinafter "Your Company"), agrees that as an independent contractor who installs, services and maintains signs manufactured, sold and/or leased by TYS GlobalTM. Your company will: Indemnify and hold harmless TYS GlobalTM for any claims, including attorney's fees, incurred, demands or expenses because of bodily injury, personal injury, emotional distress, wrongful death, property damage, loss of use of property, or other related expenses arising out of or in any way performed by Your Company for TYS GlobalTM except those claims due to the sole negligence or willful misconduct of TYS GlobalTM. Maintain in force at all relevant times worker's compensation (or employee accident insurance if allowed by your state in place of worker's compensation insurance) and employer's liability insurance covering all of Your Company's employees, agents, officers and directors who work on, install or maintain TYS GlobalTM signs and furnish to TYS GlobalTM insurance certificates as proof of insurance. This agreement shall be effective immediately upon execution.
@@ -67,7 +67,7 @@
         </div>
 
 
-        <div class="section" style="margin-top:50px">
+        <div class="section1">
 
             <h2>SAFETY AGREEMENT</h2>
             <p>

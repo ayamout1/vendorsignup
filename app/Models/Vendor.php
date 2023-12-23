@@ -64,6 +64,10 @@ public function w9Submission()
 {
     return $this->hasOne(w9Submission::class);
 }
+public function contacts()
+{
+    return $this->hasMany(Contact::class);
+}
 
 
 }

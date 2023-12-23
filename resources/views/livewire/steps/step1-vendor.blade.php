@@ -150,7 +150,32 @@
                         </div>
                     </div>
                 </div>
-                <script>
+                <div>
+                    <h3 style="color: #0064ff;">Additional Contacts</h3>
+                    @foreach ($contacts as $index => $contact)
+                        <div class="contact-group">
+                            <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional">
+                            <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional">
+                            <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone, $wire)" placeholder="xxx-xxx-xxxx" class="contactadditional">
+                            <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional">
+                                <option value="Project Manager">Project Manager</option>
+                                <option value="Designer">Designer</option>
+                                <option value="Engineer">Engineer</option>
+                                <option value="Architect">Architect</option>
+                                <option value="Super Intendent">Super Intendent</option>
+                                <option value="Estimator">Estimator</option>
+                                <option value="Permit Expeditor">Permit Expeditor</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Accounting">Accounting</option>
+                                <option value="Other">OTHER</option>
+                            </select>
+                            <button wire:click.prevent="removeContact({{$index}})" class="btn btn-danger">Remove</button>
+                        </div>
+                    @endforeach
+                    <button wire:click.prevent="addContact" class="btn btn-primary">Add Another Contact</button>
+                </div>
+
+               <script>
                     function formatPhoneNumber(input, wire) {
                         let formattedNumber = input.value.replace(/\D/g, '');
                         if (formattedNumber.length == 10) {

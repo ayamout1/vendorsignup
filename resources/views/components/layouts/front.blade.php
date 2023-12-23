@@ -59,6 +59,19 @@
     font-size: 16px;
     border-radius: 5px;
 }
+.contactadditional{
+
+    padding: 0.5rem 0.75rem;
+                            font-size: 1rem;
+                            line-height: 1.25;
+                            color: #495057;
+                            background-color: #fff;
+                            background-image: none;
+                            background-clip: padding-box;
+                            border: 1px solid rgba(0, 0, 0, 0.15);
+                            border-radius: 0.25rem;
+                            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
 </style>
 </head>
 <body>

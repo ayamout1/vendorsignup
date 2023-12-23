@@ -7,6 +7,8 @@ use Livewire\Component;
 Use App\Models\Vendor;
 Use App\Models\Address;
 Use App\Models\AgreementForm;
+use App\Mail\VendorAgreementMail;
+use Illuminate\Support\Facades\Mail;
 Use App\Models\Capability;
 Use App\Models\Equipment;
 Use App\Models\Insurance;
@@ -34,8 +36,14 @@ class MultiStepForm extends Component
 
     public $vendor_name, $owner_name, $owner_phone, $vendor_type, $vendor_phone, $vendor_email, $vendor_fax, $vendor_website;
 
+    public $contact_phone;
+
  // Step 1 - Address Information
  public $address, $address2, $city, $state, $postal, $country, $address_type, $user_id;
+ public $contacts = [
+    ['contact_name' => '', 'contact_email' => '', 'contact_phone' => '', 'contact_position' => ''],
+];
+
 
  // Step 2 - Insurance Information
  public $vehicle_file, $vehicle_effective_date, $vehicle_expiration_date;
@@ -99,6 +107,7 @@ class MultiStepForm extends Component
                 'vendor_email' => 'required|email|unique:vendors,vendor_email',
                 'vendor_fax' => 'nullable',
                 'vendor_website' => 'nullable',
+                'contact_email' => 'unique:vendors,vendor_email',
             ]);
         }
         if ($this->step == 2) {
@@ -228,6 +237,17 @@ class MultiStepForm extends Component
                 'address_type' => $address['address_type'],
             ]);
         }
+
+        foreach ($this->contacts as $contact) {
+            $vendor->contacts()->create([
+                'contact_name' => $contact['contact_name'],
+                'contact_email' => $contact['contact_email'],
+                'contact_phone' => $contact['contact_phone'],
+                'contact_position' => $contact['contact_position'],
+
+            ]);
+        }
+
 
         $filePaths = $this->handleFileUploads($vendor);
 
@@ -397,11 +417,42 @@ class MultiStepForm extends Component
 
         ]);
 
+        foreach ($this->contacts as $contact) {
+            // Insert each address into SuiteCRM's vsf_addressnew table
+            $contactId = Str::uuid(); // Generating a UUID for the address record
+            DB::connection('suitecrm')->table('vsf_vendorcontact')->insert([
+
+                    $vendor->contacts()->create([
+                        'id' => $contactId,
+                        'name' => $contact['contact_name'],
+                        'email' => $contact['contact_email'],
+                        'phone' => $contact['contact_phone'],
+                        'contact_type' => $contact['contact_position'],
+                        'date_entered' => now(),
+                        'date_modified' => now(),
+                        'modified_user_id' => $this->vendorId,
+                        'created_by' => $this->vendorId,
+                        'description' => 'Address for ' . $this->vendor_name,
+                        'assigned_user_id' => $this->vendorId,
+
+                    ])
+                ]);
+
+                DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontacts_c')->insert([
+                    'id' => Str::uuid(),
+                    'date_modified' => now(),
+                    'deleted' => 0,
+                    'vsf_vendornetwork_vsf_vendorcontacts_c' => $this->vendorId,
+                    'vsf_vendornetwork_vsf_vendorcontacts_c' => $contactId,
+                ]);
+
+            }
+
 
         foreach ($this->addresses as $address) {
             // Insert each address into SuiteCRM's vsf_addressnew table
             $addressId = Str::uuid(); // Generating a UUID for the address record
-            DB::connection('suitecrm')->table('vsf_addressnew')->insert([
+            DB::connection('suitecrm')->table('vsf_vendorcontacts')->insert([
                 'id' => $addressId,
                 'name' => $this->vendor_name . ' Address',
                 'date_entered' => now(),
@@ -429,6 +480,8 @@ class MultiStepForm extends Component
                 'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,
                 'vsf_vendornetwork_vsf_addressnewvsf_addressnew_idb' => $addressId,
             ]);
+
+
 
     }
         } catch (\Exception $e) {
@@ -548,6 +601,8 @@ public function generateAndStorePdf($vendor)
     Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
+    Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl));
+
     return $downloadUrl;
 }
 
@@ -569,5 +624,16 @@ public function generateAndStorePdf($vendor)
         unset($this->addresses[$index]);
         $this->addresses = array_values($this->addresses);
     }
+    public function addContact()
+{
+    $this->contacts[] = ['contact_name' => '', 'contact_email' => '', 'contact_phone' => '', 'contact_position' => ''];
+}
+
+public function removeContact($index)
+{
+    unset($this->contacts[$index]);
+    $this->contacts = array_values($this->contacts);
+}
+
 
     }

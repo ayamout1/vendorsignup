@@ -107,7 +107,8 @@ class MultiStepForm extends Component
                 'vendor_email' => 'required|email|unique:vendors,vendor_email',
                 'vendor_fax' => 'nullable',
                 'vendor_website' => 'nullable',
-                'contact_email' => 'unique:vendors,vendor_email',
+
+
             ]);
         }
         if ($this->step == 2) {

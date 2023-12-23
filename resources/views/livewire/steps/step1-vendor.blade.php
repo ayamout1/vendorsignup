@@ -151,12 +151,16 @@
                     </div>
                 </div>
                 <div>
-                    <h3 style="color: #0064ff;">Additional Contacts</h3>
+
                     @foreach ($contacts as $index => $contact)
-                        <div class="contact-group">
+                    <h3 style="color: #0064ff;">Additional Contacts #{{ $index + 1 }}</h3>
+                        <div class="contact-group" x-data="{ formatPhoneNumber }">
                             <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional">
-                            <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional">
+                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional" id="contact_email">
+                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone, $wire)" placeholder="xxx-xxx-xxxx" class="contactadditional">
+                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional">
                                 <option value="Project Manager">Project Manager</option>
                                 <option value="Designer">Designer</option>
@@ -169,7 +173,10 @@
                                 <option value="Accounting">Accounting</option>
                                 <option value="Other">OTHER</option>
                             </select>
+                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            @if (count($contacts) > 1)
                             <button wire:click.prevent="removeContact({{$index}})" class="btn btn-danger">Remove</button>
+                            @endif
                         </div>
                     @endforeach
                     <button wire:click.prevent="addContact" class="btn btn-primary">Add Another Contact</button>

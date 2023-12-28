@@ -52,7 +52,6 @@ class VendorAgreementMail extends Mailable
     {
         $tempPath = tempnam(sys_get_temp_dir(), 'pdf');
         copy($this->downloadUrl, $tempPath);
-        dd($this->data);
         return $this->view('emails.vendor_agreement') // Use view for the email content
             ->with($this->data)
             ->subject('Signed Vendor Agreement')

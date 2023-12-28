@@ -91,7 +91,7 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label for="owner_phone">Owner Phone</label>
-                            <input type="tel" class="form-control" id="owner_phone" wire:model.lazy="owner_phone" x-ref="ownerPhone" @blur="formatPhoneNumber($refs.ownerPhone, $wire)" placeholder="xxx-xxx-xxxx">
+                            <input type="tel" class="form-control" id="owner_phone" wire:model.lazy="owner_phone" x-ref="owner_phone" @blur="formatPhoneNumber($refs.owner_phone)" placeholder="xxx-xxx-xxxx">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label for="vendor_phone">Vendor Phone</label>
-                            <input type="tel" class="form-control" id="vendor_phone" wire:model.lazy="vendor_phone" x-ref="vendorPhone" @blur="formatPhoneNumber($refs.vendorPhone, $wire)" placeholder="xxx-xxx-xxxx">
+                            <input type="tel" class="form-control" id="vendor_phone" wire:model.lazy="vendor_phone" x-ref="vendorPhone" @blur="formatPhoneNumber($refs.vendorPhone)" placeholder="xxx-xxx-xxxx">
                             @error('vendor_phone') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -155,13 +155,13 @@
                     @foreach ($contacts as $index => $contact)
                     <h3 style="color: #0064ff;">Additional Contacts #{{ $index + 1 }}</h3>
                         <div class="contact-group" x-data="{ formatPhoneNumber }">
-                            <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional">
+                            <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional" id="contact_name" name="contact_name">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
-                            <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional" id="contact_email">
+                            <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional" id="contact_email" name="contact_email">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
-                            <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone, $wire)" placeholder="xxx-xxx-xxxx" class="contactadditional">
+                            <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone)" placeholder="xxx-xxx-xxxx" class="contactadditional" id="contact_phone" name="contact_phone">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
-                            <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional">
+                            <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional" id="contact_position" name="contact_position">
                                 <option value="Project Manager">Project Manager</option>
                                 <option value="Designer">Designer</option>
                                 <option value="Engineer">Engineer</option>
@@ -183,12 +183,13 @@
                 </div>
 
                <script>
-                    function formatPhoneNumber(input, wire) {
+                    function formatPhoneNumber(input) {
+
                         let formattedNumber = input.value.replace(/\D/g, '');
                         if (formattedNumber.length == 10) {
                             formattedNumber = formattedNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
                         }
                         input.value = formattedNumber;
-                        wire.set(input.getAttribute('id'), formattedNumber);
+
                     }
                 </script>

@@ -429,8 +429,6 @@ class MultiStepForm extends Component
                         'email' => $contact['contact_email'],
                         'phone' => $contact['contact_phone'],
                         'contact_type' => $contact['contact_position'],
-                        'date_entered' => now(),
-                        'date_modified' => now(),
                         'modified_user_id' => $this->vendorId,
                         'created_by' => $this->vendorId,
                         'description' => 'Address for ' . $this->vendor_name,
@@ -456,8 +454,6 @@ class MultiStepForm extends Component
             DB::connection('suitecrm')->table('vsf_addressnew')->insert([
                 'id' => $addressId,
                 'name' => $this->vendor_name . ' Address',
-                'date_entered' => now(),
-                'date_modified' => now(),
                 'modified_user_id' => $this->vendorId,
                 'created_by' => $this->vendorId,
                 'description' => 'Address for ' . $this->vendor_name,
@@ -475,7 +471,6 @@ class MultiStepForm extends Component
 
             // Insert a record in the relationship table
             DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_1_c')->insert([
-                'id' => Str::uuid(),
                 'date_modified' => now(),
                 'deleted' => 0,
                 'vsf_vendornetwork_vsf_addressnewvsf_vendornetwork_ida' => $this->vendorId,
@@ -602,7 +597,7 @@ public function generateAndStorePdf($vendor)
     Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
-    //Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl));
+    Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl));
 
     return $downloadUrl;
 }

@@ -602,7 +602,7 @@ public function generateAndStorePdf($vendor)
     Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
-    Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl));
+    Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl,$data));
 
     return $downloadUrl;
 }

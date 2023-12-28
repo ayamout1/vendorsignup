@@ -18,6 +18,10 @@ class VendorAgreementMail extends Mailable
     /**
      * Create a new message instance.
      */
+
+     protected $downloadUrl;
+protected $data;
+
     public function __construct($downloadUrl, $data)
     {
 

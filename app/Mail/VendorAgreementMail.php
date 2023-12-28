@@ -26,7 +26,7 @@ protected $data;
     {
 
         $this->downloadUrl = $downloadUrl;
-        $this->$data = $data;
+        $this->data = $data;
     }
 
 

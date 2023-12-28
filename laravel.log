@@ -12,3 +12,4 @@
 [2023-12-28 17:35:58] local.ERROR: Error b44205ed-8051-4f98-8261-2656e7a00865: Array to string conversion  
 [2023-12-28 17:36:53] local.ERROR: Error d934dbad-cccd-4445-94e7-9aeea047d795: Array to string conversion  
 [2023-12-28 17:36:58] local.ERROR: Error 7d06ea44-e29e-4197-975f-06f0c117c721: Array to string conversion  
+[2023-12-28 17:39:40] local.ERROR: Error in submitToSuiteCRM: SQLSTATE[HY000]: General error: 20 datatype mismatch (Connection: sqlite, SQL: insert into "contacts" ("id", "vendor_id", "updated_at", "created_at") values (e8437317-57b4-492f-9d61-02b8d73c901b, 3, 2023-12-28 17:39:40, 2023-12-28 17:39:40))  

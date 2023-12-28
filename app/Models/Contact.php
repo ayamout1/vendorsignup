@@ -9,6 +9,10 @@ class Contact extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+       'id','vendor_id','contact_name','contact_email','contact_phone','contact_position'
+
+    ];
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);

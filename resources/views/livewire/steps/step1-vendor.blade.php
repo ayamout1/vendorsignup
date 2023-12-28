@@ -91,7 +91,7 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label for="owner_phone">Owner Phone</label>
-                            <input type="tel" class="form-control" id="owner_phone" wire:model.lazy="owner_phone" x-ref="ownerPhone" @blur="formatPhoneNumber($refs.ownerPhone)" placeholder="xxx-xxx-xxxx">
+                            <input type="tel" class="form-control" id="owner_phone" wire:model.lazy="owner_phone" x-ref="ownerPhone" @blur="formatPhoneNumber($refs.ownerPhone, $wire)" placeholder="xxx-xxx-xxxx">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label for="vendor_phone">Vendor Phone</label>
-                            <input type="tel" class="form-control" id="vendor_phone" wire:model.lazy="vendor_phone" x-ref="vendorPhone" @blur="formatPhoneNumber($refs.vendorPhone)" placeholder="xxx-xxx-xxxx">
+                            <input type="tel" class="form-control" id="vendor_phone" wire:model.lazy="vendor_phone" x-ref="vendorPhone" @blur="formatPhoneNumber($refs.vendorPhone, $wire)" placeholder="xxx-xxx-xxxx">
                             @error('vendor_phone') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional" id="contact_email">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
-                            <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone)" placeholder="xxx-xxx-xxxx" class="contactadditional">
+                            <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone, $wire)" placeholder="xxx-xxx-xxxx" class="contactadditional">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional">
                                 <option value="Project Manager">Project Manager</option>

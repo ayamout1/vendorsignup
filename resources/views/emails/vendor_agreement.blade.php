@@ -19,9 +19,9 @@
     <p>We have received and processed your vendor agreement. Please find the attached document for your records.</p>
 
     <!-- You can add more personalized information here using Blade templating -->
-    <p>Vendor Name: {{ $data['vendor_name'] }}</p>
-    <p>Owner Name: {{ $data['owner_name'] }}</p>
-    <p>Title: {{ $data['title'] }}</p>
+    <p>Vendor Name: {{ $this->data['vendor_name'] }}</p>
+    <p>Owner Name: {{ $this->data['owner_name'] }}</p>
+    <p>Title: {{ $this->data['title'] }}</p>
     <p>Agreement Date: {{ date('F d, Y') }}</p>
 
     <p>Thank you for your prompt attention to this matter.</p>

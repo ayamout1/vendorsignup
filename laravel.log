@@ -3,3 +3,5 @@
 [2023-12-28 17:14:46] Production.ERROR: Error 1998e36c-04d9-46ef-82c8-63cee844de9b: View [emails.vendor_agreement] not found.  
 [2023-12-28 17:18:15] Production.ERROR: Error 7f3830f5-27f3-4bf2-a5a2-ef437f3e9ea3: Undefined variable $vendor_name (View: /var/www/html/vendorsignup/resources/views/emails/vendor_agreement.blade.php)  
 [2023-12-28 17:18:20] Production.ERROR: Error 45f19fac-3ce8-4733-9a95-5fe5fc6f8539: Undefined variable $vendor_name (View: /var/www/html/vendorsignup/resources/views/emails/vendor_agreement.blade.php)  
+[2023-12-28 17:26:43] Production.ERROR: Error b0e11029-5b11-4a13-a722-09cd0bbb6cda: Array to string conversion  
+[2023-12-28 17:26:46] Production.ERROR: Error 88704fc9-2e73-45b6-b947-5e2a526ecf75: Array to string conversion  

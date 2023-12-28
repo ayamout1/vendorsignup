@@ -18,10 +18,11 @@ class VendorAgreementMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($downloadUrl)
+    public function __construct($downloadUrl, $data)
     {
 
         $this->downloadUrl = $downloadUrl;
+        $this->$data = $data;
     }
 
     /**
@@ -52,6 +53,7 @@ class VendorAgreementMail extends Mailable
         copy($this->downloadUrl, $tempPath);
 
         return $this->view('emails.vendor_agreement') // Use view for the email content
+            ->with($this->data)
             ->subject('Signed Vendor Agreement')
             ->from('procurement@tysglobal.net', 'Vendor News')
             ->attach($tempPath, [

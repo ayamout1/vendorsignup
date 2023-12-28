@@ -1,3 +1,5 @@
 [2023-12-28 17:14:39] Production.ERROR: Error 5f325a74-f265-448c-8c8d-f3903fcaf92b: View [emails.vendor_agreement] not found.  
 [2023-12-28 17:14:42] Production.ERROR: Error dafb3925-6ef3-4c98-bbe9-64bd1ca24f8e: View [emails.vendor_agreement] not found.  
 [2023-12-28 17:14:46] Production.ERROR: Error 1998e36c-04d9-46ef-82c8-63cee844de9b: View [emails.vendor_agreement] not found.  
+[2023-12-28 17:18:15] Production.ERROR: Error 7f3830f5-27f3-4bf2-a5a2-ef437f3e9ea3: Undefined variable $vendor_name (View: /var/www/html/vendorsignup/resources/views/emails/vendor_agreement.blade.php)  
+[2023-12-28 17:18:20] Production.ERROR: Error 45f19fac-3ce8-4733-9a95-5fe5fc6f8539: Undefined variable $vendor_name (View: /var/www/html/vendorsignup/resources/views/emails/vendor_agreement.blade.php)  

@@ -439,7 +439,7 @@ class MultiStepForm extends Component
                     ])
                 ]);
 
-                DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontacts_c')->insert([
+                DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontacts_1_c')->insert([
                     'id' => Str::uuid(),
                     'date_modified' => now(),
                     'deleted' => 0,
@@ -453,7 +453,7 @@ class MultiStepForm extends Component
         foreach ($this->addresses as $address) {
             // Insert each address into SuiteCRM's vsf_addressnew table
             $addressId = Str::uuid(); // Generating a UUID for the address record
-            DB::connection('suitecrm')->table('vsf_vendorcontacts')->insert([
+            DB::connection('suitecrm')->table('vsf_addressnew')->insert([
                 'id' => $addressId,
                 'name' => $this->vendor_name . ' Address',
                 'date_entered' => now(),
@@ -474,7 +474,7 @@ class MultiStepForm extends Component
             ]);
 
             // Insert a record in the relationship table
-            DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_c')->insert([
+            DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_1_c')->insert([
                 'id' => Str::uuid(),
                 'date_modified' => now(),
                 'deleted' => 0,

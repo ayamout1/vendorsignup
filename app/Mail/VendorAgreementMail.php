@@ -30,7 +30,7 @@ class VendorAgreementMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('it@tysmail.com', 'Vendor News'),
+            from: new Address('procurement@tysglobal.net', 'Vendor News'),
             subject: 'Signed Vendor Agreement',
         );
     }
@@ -45,20 +45,19 @@ class VendorAgreementMail extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments($downloadUrl): array
+
+    public function build()
     {
         $tempPath = tempnam(sys_get_temp_dir(), 'pdf');
         copy($this->downloadUrl, $tempPath);
 
-        return [
-            Attachment::fromStorage($tempPath)
-            ->as('Vendor-agreement.pdf')
-            ->withMime('application/pdf'),
-        ];
+        return $this->view('emails.vendor_agreement') // Use view for the email content
+            ->subject('Signed Vendor Agreement')
+            ->from('procurement@tysglobal.net', 'Vendor News')
+            ->attach($tempPath, [
+                'as' => 'Vendor-agreement.pdf',
+                'mime' => 'application/pdf',
+            ]);
     }
+
 }

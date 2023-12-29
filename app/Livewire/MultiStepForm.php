@@ -420,10 +420,10 @@ class MultiStepForm extends Component
 
         foreach ($this->contacts as $contact) {
             // Insert each address into SuiteCRM's vsf_addressnew table
+            $contactId = Str::uuid(); // Generating a UUID for the address record
             DB::connection('suitecrm')->table('vsf_vendorcontact')->insert([
 
-                $newContact =  $vendor->contacts()->create([
-
+                        'id' => $contactId,
                         'name' => $contact['contact_name'],
                         'email' => $contact['contact_email'],
                         'phone' => $contact['contact_phone'],
@@ -433,15 +433,13 @@ class MultiStepForm extends Component
                         'description' => 'Address for ' . $this->vendor_name,
                         'assigned_user_id' => $this->vendorId,
 
-                    ])
-                ]);
-                $newContactId = $newContact->id;
+            ]);
 
                 DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontacts_1_c')->insert([
                     'date_modified' => now(),
                     'deleted' => 0,
                     'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendornetwork_ida' => $this->vendorId,
-                    'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendorcontact_idb' => $newContactId,
+                    'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendorcontact_idb' => $contactId,
                 ]);
 
             }
@@ -451,8 +449,6 @@ class MultiStepForm extends Component
             // Insert each address into SuiteCRM's vsf_addressnew table
             $addressId = Str::uuid(); // Generating a UUID for the address record
             DB::connection('suitecrm')->table('vsf_addressnew')->insert([
-
-                $newAddress =  $vendor->address()->create([
                 'id' => $addressId,
                 'name' => $this->vendor_name . ' Address',
                 'modified_user_id' => $this->vendorId,
@@ -469,17 +465,15 @@ class MultiStepForm extends Component
                 'address_type_cnew' => $address['address_type'],
                 // Add other fields as per your table's structure
 
-                ])
-            ]);
 
-            $newAddressId = $newAddress->id;
+            ]);
 
             // Insert a record in the relationship table
             DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_addressnew_1_c')->insert([
                 'date_modified' => now(),
                 'deleted' => 0,
                 'vsf_vendornetwork_vsf_addressnew_1vsf_vendornetwork_ida' => $this->vendorId,
-                'vsf_vendornetwork_vsf_addressnew_1vsf_addressnew_idb' => $newAddressId,
+                'vsf_vendornetwork_vsf_addressnew_1vsf_addressnew_idb' => $addressId,
             ]);
 
 

@@ -349,7 +349,7 @@ class MultiStepForm extends Component
         $vendor->update($filePaths);
 
          try {
-            dd($vendor->id);
+
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([
@@ -429,10 +429,10 @@ class MultiStepForm extends Component
                         'email' => $contact['contact_email'],
                         'phone' => $contact['contact_phone'],
                         'contact_type' => $contact['contact_position'],
-                        'modified_user_id' => $this->vendorId,
-                        'created_by' => $this->vendorId,
-                        'description' => 'Address for ' . $this->vendor_name,
-                        'assigned_user_id' => $this->vendorId,
+                        'modified_user_id' => $vendor->id,
+                        'created_by' => $vendor->id,
+                        'description' => 'Address for ' . $vendor->name,
+                        'assigned_user_id' => $vendor->id,
 
             ]);
 
@@ -440,7 +440,7 @@ class MultiStepForm extends Component
                     'id' => Str::uuid(),
                     'date_modified' => now(),
                     'deleted' => 0,
-                    'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendornetwork_ida' => $this->vendorId,
+                    'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendornetwork_ida' => $vendor->id,
                     'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendorcontact_idb' => $contactId,
                 ]);
 
@@ -452,12 +452,10 @@ class MultiStepForm extends Component
             $addressId = Str::uuid(); // Generating a UUID for the address record
             DB::connection('suitecrm')->table('vsf_addressnew')->insert([
                 'id' => $addressId,
-                'name' => $this->vendor_name . ' Address',
-                'modified_user_id' => $this->vendorId,
+                'name' => $vendor->name . ' Address',
                 'created_by' => $this->vendorId,
-                'description' => 'Address for ' . $this->vendor_name,
+                'description' => 'Address for ' . $vendor->name,
                 'deleted' => 0,
-                'assigned_user_id' => $this->vendorId,
                 'address_cnew_city' => $address['city'],
                 'address_cnew_state' => $address['state'],
                 'address_cnew_postalcode' => $address['postal'],
@@ -475,7 +473,7 @@ class MultiStepForm extends Component
                 'id' => Str::uuid(),
                 'date_modified' => now(),
                 'deleted' => 0,
-                'vsf_vendornetwork_vsf_addressnew_1vsf_vendornetwork_ida' => $this->vendorId,
+                'vsf_vendornetwork_vsf_addressnew_1vsf_vendornetwork_ida' => $vendor->id,
                 'vsf_vendornetwork_vsf_addressnew_1vsf_addressnew_idb' => $addressId,
             ]);
 

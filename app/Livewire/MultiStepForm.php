@@ -349,6 +349,7 @@ class MultiStepForm extends Component
         $vendor->update($filePaths);
 
          try {
+            dd($vendor->id);
 
         // Insert vendor data into SuiteCRM's vsf_vendornetwork table
         DB::connection('suitecrm')->table('vsf_vendornetwork')->insert([

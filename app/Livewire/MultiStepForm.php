@@ -435,7 +435,7 @@ class MultiStepForm extends Component
 
             ]);
 
-                DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontacts_1_c')->insert([
+                DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontact_1_c')->insert([
                     'date_modified' => now(),
                     'deleted' => 0,
                     'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendornetwork_ida' => $this->vendorId,

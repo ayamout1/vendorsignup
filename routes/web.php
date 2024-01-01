@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\FileUploadController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +22,7 @@ Route::get('/', function () {
 Route::get('/vendor-form', function () {
     return view('vendor_form');  // This is the name of your blade file without .blade.php
 })->name('vendor.form');
+
+Route::get('/fileshow/{email}', [FileUploadController::class, 'show'])->name('file.show');
+
+Route::post('/file/{email}', [FileUploadController::class, 'update'])->name('file.update');

@@ -25,6 +25,11 @@
         <button wire:click="nextStep" class="btn btn-primary">Next</button>
         @endif
         @if($step == 8)
+        <div wire:loading wire:target="submitForm" class="text-center py-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
             <button wire:click="submitForm"  class="btn btn-success mx-2">Submit</button>
         @endif
     </div>

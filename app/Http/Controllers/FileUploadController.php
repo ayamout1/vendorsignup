@@ -43,6 +43,8 @@ class FileUploadController extends Controller
                         ->where('vendor_email_c', $request['email']) // Assume 'vendor_email_c' is the email column
                         ->first();
 
+                        dd($vendor);
+
             if(!$vendor){
                 // Vendor not found
                 return response()->json(['error' => 'Vendor not found'], 404);

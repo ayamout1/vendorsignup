@@ -12,6 +12,8 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Edit Uploaded Files</h1>
+
+        {{ dd($vendorFiles) }}
         <form action="{{ route('file.update', ['email' => $vendorFiles->vendor_email_c]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')

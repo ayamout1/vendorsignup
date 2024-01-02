@@ -36,7 +36,7 @@ return [
 ];
 } else {
 // Handle case where no records are found
-return null;
+return view('file.show', compact('vendorFiles'));;
 }
      //   dd($w9file);
         // Logic to show existing file or upload form

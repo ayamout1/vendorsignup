@@ -53,12 +53,13 @@ class FileUploadController extends Controller
 
 //dd($request);
 
+dd($request->hasFile('vehicle_file'));
+
             // Assuming you're updating the 'vendor_file' field
             if($request->hasFile('vehicle_file')){
                 $file = $request->file('vehicle_file');
 
                 //delete old file
-                Storage::disk('linode')->delete($file);
 
                 // Handle file upload, save to storage, etc.
                 $fileName = $this->generateFileName($vendor->vendor_name_c, 'vehicle', $file->getClientOriginalExtension());
@@ -75,7 +76,6 @@ class FileUploadController extends Controller
                 $file = $request->file('general_liability_file');
 
                 //delete old file
-                Storage::disk('linode')->delete($file);
 
                 // Handle file upload, save to storage, etc.
                 $fileName = $this->generateFileName($vendor->vendor_name_c, 'general_liability_file', $file->getClientOriginalExtension());
@@ -92,7 +92,6 @@ class FileUploadController extends Controller
                 $file = $request->file('worker_file');
 
                 //delete old file
-                Storage::disk('linode')->delete($file);
 
                 // Handle file upload, save to storage, etc.
                 $fileName = $this->generateFileName($vendor->vendor_name_c, 'worker_file', $file->getClientOriginalExtension());
@@ -109,7 +108,6 @@ class FileUploadController extends Controller
                 $file = $request->file('file_path');
 
                 //delete old file
-                Storage::disk('linode')->delete($file);
 
                 // Handle file upload, save to storage, etc.
                 $fileName = $this->generateFileName($vendor->vendor_name_c, 'w9submission', $file->getClientOriginalExtension());

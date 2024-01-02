@@ -25,4 +25,4 @@ Route::get('/vendor-form', function () {
 
 Route::get('/fileshow/{email}', [FileUploadController::class, 'show'])->name('file.show');
 
-Route::post('/file/{email}', [FileUploadController::class, 'update'])->name('file.update');
+Route::put('/file/{email}', [FileUploadController::class, 'update'])->name('file.update');

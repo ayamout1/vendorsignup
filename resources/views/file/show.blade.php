@@ -10,31 +10,31 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Edit Uploaded Files</h1>
-        <form action="{{ route('file.update', ['email' => $vendor['vendor_email']]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('file.update', ['email' => $vendorFiles->vendor_email_c]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="form-group">
                 <label for="vehicle_file">Vehicle Insurance File:</label>
-                <p>Current File: {{ $insurance_files['vehicle_file'] ?? 'Nothing Uploaded' }}</p>
+                <p>Current File: {{ $vendorFiles->vehicle_file_path_c ?? 'Nothing Uploaded' }}</p>
                 <input type="file" name="vehicle_file" id="vehicle_file" class="form-control-file">
             </div>
 
             <div class="form-group">
                 <label for="general_liability_file">General Liability File:</label>
-                <p>Current File: {{ $insurance_files['general_liability_file'] ?? 'Nothing Uploaded' }}</p>
+                <p>Current File: {{ $vendorFiles->general_liability_file_path_c ?? 'Nothing Uploaded' }}</p>
                 <input type="file" name="general_liability_file" id="general_liability_file" class="form-control-file">
             </div>
 
             <div class="form-group">
                 <label for="worker_file">Worker Compensation File:</label>
-                <p>Current File: {{ $insurance_files['worker_file'] ?? 'Nothing Uploaded' }}</p>
+                <p>Current File: {{ $vendorFiles->worker_file_path_c ?? 'Nothing Uploaded' }}</p>
                 <input type="file" name="worker_file" id="worker_file" class="form-control-file">
             </div>
 
             <div class="form-group">
                 <label for="w9_file">W9 File:</label>
-                <p>Current File: {{ $w9file['file_path'] ?? 'Nothing Uploaded' }}</p>
+                <p>Current File: {{ $vendorFiles->file_path_c ?? 'Nothing Uploaded' }}</p>
                 <input type="file" name="file_path" id="w9_file" class="form-control-file">
             </div>
 

@@ -15,20 +15,35 @@ class FileUploadController extends Controller
         //get vendor to update his files
 
        // $vendor = Vendor::all()->where('vendor_email',$email)->firstOrFail();
-        $vendor = DB::connection('suitecrm')->table('vsf_vendornetwork')
-        ->where('vendor_email_c', $email) // replace 'email_column_name' with the actual column name for the email in the table
-        ->first();
+       $vendorFiles = DB::connection('suitecrm')->table('vsf_vendornetwork')
+       ->where('vendor_email_c', $email) // Adjust the column name if necessary
+       ->first([
+            'vendor_email_c',
+           'vehicle_file_path_c',
+           'general_liability_file_path_c',
+           'worker_file_path_c',
+           'file_path_c' // Assuming this is for the W9 file
+       ]);
 
-
-        $insurance_files = Insurance::all()->where('vendor_id',$vendor['id'])->firstOrFail();
-        $w9file = W9Submission::all()->where('vendor_id',$vendor['id'])->firstOrFail();
-
+// Check if records are found and return them
+if ($vendorFiles) {
+// You now have an object with file paths that you can use
+return [
+'vehicle_file' => $vendorFiles->vehicle_file_path_c,
+'general_liability_file' => $vendorFiles->general_liability_file_path_c,
+'worker_file' => $vendorFiles->worker_file_path_c,
+'w9_file' => $vendorFiles->file_path_c
+];
+} else {
+// Handle case where no records are found
+return null;
+}
      //   dd($w9file);
         // Logic to show existing file or upload form
-        return view('file.show', compact('vendor','insurance_files','w9file'));;
+        return view('file.show', compact('vendorFiles'));;
     }
 
-    public function update(Request $request, Vendor $vendor)
+    public function update(Request $request, $vendorFiles)
     {
 
 

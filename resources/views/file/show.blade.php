@@ -12,12 +12,10 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Edit Uploaded Files</h1>
-
-        {{ dd($vendorFiles) }}
         <form action="{{ route('file.update', ['email' => $vendorFiles->vendor_email_c]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-
+            <input type="hidden" name="email" id="email" value="$vendorFiles->vendor_email_c">
             <div class="form-group">
                 <label for="vehicle_file">Vehicle Insurance File:</label>
                 <p>Current File: {{ $vendorFiles->vehicle_file_path_c ?? 'Nothing Uploaded' }}</p>

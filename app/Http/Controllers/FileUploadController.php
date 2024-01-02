@@ -31,11 +31,11 @@ class FileUploadController extends Controller
         return view('file.show', compact('vendorFiles'));;
     }
 
-    public function update(Request $request, $vendorFiles)
+    public function update(Request $request,  $email)
     {
 
 
-        $email = $request->input('email');
+        $email = $request->email;
 
         dd($email);
         try {

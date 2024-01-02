@@ -26,18 +26,6 @@ class FileUploadController extends Controller
        ]);
 
 // Check if records are found and return them
-if ($vendorFiles) {
-// You now have an object with file paths that you can use
-return [
-'vehicle_file' => $vendorFiles->vehicle_file_path_c,
-'general_liability_file' => $vendorFiles->general_liability_file_path_c,
-'worker_file' => $vendorFiles->worker_file_path_c,
-'w9_file' => $vendorFiles->file_path_c
-];
-} else {
-// Handle case where no records are found
-return view('file.show', compact('vendorFiles'));;
-}
      //   dd($w9file);
         // Logic to show existing file or upload form
         return view('file.show', compact('vendorFiles'));;

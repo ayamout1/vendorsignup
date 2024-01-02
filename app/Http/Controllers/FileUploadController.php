@@ -35,13 +35,12 @@ class FileUploadController extends Controller
     {
 
 
-
-        dd($request);
+        $email = $request->input('email');
         try {
             // Retrieve the vendor based on email
             $vendor = DB::connection('suitecrm')
                         ->table('vsf_vendornetwork')
-                        ->where('vendor_email_c', $request['email']) // Assume 'vendor_email_c' is the email column
+                        ->where('vendor_email_c', $email) // Assume 'vendor_email_c' is the email column
                         ->first();
 
 

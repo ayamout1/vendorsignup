@@ -36,6 +36,8 @@ class FileUploadController extends Controller
 
 
         $email = $request->input('email');
+
+        dd($email);
         try {
             // Retrieve the vendor based on email
             $vendor = DB::connection('suitecrm')

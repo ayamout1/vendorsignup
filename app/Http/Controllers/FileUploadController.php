@@ -53,7 +53,6 @@ class FileUploadController extends Controller
 
 //dd($request);
 
-dd($request->hasFile('vehicle_file'));
 
             // Assuming you're updating the 'vendor_file' field
             if($request->hasFile('vehicle_file')){
@@ -69,7 +68,7 @@ dd($request->hasFile('vehicle_file'));
                 // Update the vendor record with new file path
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
-                    ->where('vendor_email_c', $request['vendor_email'])
+                    ->where('vendor_email_c', $email)
                     ->update(['vehicle_file_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('general_liability_file')){
@@ -85,7 +84,7 @@ dd($request->hasFile('vehicle_file'));
                 // Update the vendor record with new file path
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
-                    ->where('vendor_email_c', $request['vendor_email'])
+                    ->where('vendor_email_c', $email)
                     ->update(['general_liability_file_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('worker_file')){
@@ -101,7 +100,7 @@ dd($request->hasFile('vehicle_file'));
                 // Update the vendor record with new file path
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
-                    ->where('vendor_email_c', $request['vendor_email'])
+                    ->where('vendor_email_c', $email)
                     ->update(['worker_file_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('file_path')){
@@ -117,7 +116,7 @@ dd($request->hasFile('vehicle_file'));
                 // Update the vendor record with new file path
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
-                    ->where('vendor_email_c', $request['vendor_email'])
+                    ->where('vendor_email_c', $email)
                     ->update(['file_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
 

@@ -36,6 +36,7 @@ class FileUploadController extends Controller
 
 
 
+        dd($request);
         try {
             // Retrieve the vendor based on email
             $vendor = DB::connection('suitecrm')
@@ -43,7 +44,6 @@ class FileUploadController extends Controller
                         ->where('vendor_email_c', $request['email']) // Assume 'vendor_email_c' is the email column
                         ->first();
 
-                        dd($vendor);
 
             if(!$vendor){
                 // Vendor not found

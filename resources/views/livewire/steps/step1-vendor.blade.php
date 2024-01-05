@@ -1,7 +1,9 @@
+<div class="col-lg-12 col-sm-12" style="text-align: center;">
+    <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
+    <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
+</div>
                 <div class="row">
-                    <span class="login100-form-title p-b-53" style="color: #0B1E2C;">
-                       Vendor Information
-                    </span>
+
 
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" style="width: 100%;background-color: white;font-size: 12px;justify-content: left;">
@@ -60,13 +62,12 @@
                 </div>
                 <div class="row" x-data="{ formatPhoneNumber }">
                     <div class="col-lg-12 col-sm-12" style="text-align: center;">
-                        <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
-                        <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
+                        <h3 style="color: #101e2b;">Vendor Information</h3>
+                        <br>
                     </div>
 
                     <div class="col-12">
-                        <h3 style="color: #0064ff;">Vendor Information</h3>
-                        <br>
+
                     </div>
 
                     <!-- Vendor Name -->
@@ -153,7 +154,8 @@
                 <div>
 
                     @foreach ($contacts as $index => $contact)
-                    <h3 style="color: #0064ff;">Additional Contacts #{{ $index + 1 }}</h3>
+                        <?php $countcontact = $index + 1 ?>
+                    <h3 style="color: #101e2b;">Additional Contacts Number @numbertowords($countcontact)</h3>
                         <div class="contact-group" x-data="{ formatPhoneNumber }">
                             <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional" id="contact_name" name="contact_name">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror

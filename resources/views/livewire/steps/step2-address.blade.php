@@ -69,8 +69,9 @@
                 </div>
                 <div class="container">
                     @foreach ($addresses as $index => $address)
+                    <?php $countcontact = $index + 1 ?>
                         <div class="mb-4">
-                            <h3 class="text-lg font-bold">Address #{{ $index + 1 }}</h3>
+                            <h3 class="text-lg font-bold">Address Number  @numbertowords($countcontact)</h3>
 
                             <div class="row">
                                 <!-- Address Line 1 -->

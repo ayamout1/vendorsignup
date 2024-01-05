@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +22,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+
+        Blade::directive('numbertowords', function ($expression) {
+            return "<?php
+                \$f = new NumberFormatter('en', NumberFormatter::SPELLOUT);
+                echo ucfirst(\$f->format($expression));
+            ?>";
+        });
+
     }
 }

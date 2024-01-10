@@ -69,7 +69,7 @@ class FileUploadController extends Controller
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
                     ->where('vendor_email_c', $email)
-                    ->update(['vehicle_file_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
+                    ->update(['vehicle_file_path_c' => 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('general_liability_file')){
                 $file = $request->file('general_liability_file');
@@ -85,7 +85,7 @@ class FileUploadController extends Controller
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
                     ->where('vendor_email_c', $email)
-                    ->update(['general_liability_file_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
+                    ->update(['general_liability_file_c' => 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('worker_file')){
                 $file = $request->file('worker_file');
@@ -101,7 +101,7 @@ class FileUploadController extends Controller
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
                     ->where('vendor_email_c', $email)
-                    ->update(['worker_file_path_c' => 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/'.$filePath]);
+                    ->update(['worker_file_path_c' => 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('file_path')){
                 $file = $request->file('file_path');

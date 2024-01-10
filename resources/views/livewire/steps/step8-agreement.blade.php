@@ -3,7 +3,7 @@
         <!-- Certify Agreement -->
         <div class="mb-2">
             <label for="is_certified" class="block text-sm font-medium text-gray-700">Certify Agreement</label>
-            <input wire:model="is_certified" type="checkbox" id="is_certified" name="is_certified" class="mt-1">
+            <input wire:model="is_certified" type="checkbox" id="is_certified" name="is_certified" class="mt-1" checked>
             @error('is_certified') <span class="text-red-500">{{ $message }}</span> @enderror
         </div>
 

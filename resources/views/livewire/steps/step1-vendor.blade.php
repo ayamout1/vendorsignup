@@ -102,7 +102,7 @@
                         <div class="form-group">
                             <label for="vendor_type">Vendor Type</label>
                             <select class="form-control" id="vendor_type" wire:model="vendor_type">
-                                    <option value="SignageInstallation">Signage Installation</option>
+                                    <option value="SignageInstallation" selected>Signage Installation</option>
                                     <option value="SignageFabrication">Signage Fabrication</option>
                                     <option value="WallpaperInstallation">Wallpaper Installation</option>
                                     <option value="PaintandRestoration">Paint and Restoration</option>
@@ -164,7 +164,7 @@
                             <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone)" placeholder="xxx-xxx-xxxx" class="contactadditional" id="contact_phone" name="contact_phone">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional" id="contact_position" name="contact_position">
-                                <option value="Project Manager">Project Manager</option>
+                                <option value="Project Manager" selected>Project Manager</option>
                                 <option value="Designer">Designer</option>
                                 <option value="Engineer">Engineer</option>
                                 <option value="Architect">Architect</option>

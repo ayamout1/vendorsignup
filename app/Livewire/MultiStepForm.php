@@ -567,7 +567,7 @@ private function uploadFileAndGetPath($file, $folder, $vendorName)
 {
     $fileName = $this->generateFileName($vendorName, $file->getClientOriginalName(), $file->extension());
     $filePath = $file->storeAs($folder, $fileName, 'linode');
-    return 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $filePath;
+    return 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/' . $filePath;
 }
 
 
@@ -589,7 +589,7 @@ public function generateAndStorePdf($vendor)
     $pdfFileName = 'agreement_' . Str::slug($this->vendor_name) . '_' . date('mdY') . '.pdf';
     $pdfFilePath = 'agreements/' . $pdfFileName;
     Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
-    $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
+    $downloadUrl = 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
     Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl,$data));
 

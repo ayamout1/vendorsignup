@@ -206,7 +206,7 @@ class MultiStepForm extends Component
         // ... Any other SuiteCRM related operations ...
 
 
-    private function submitToLaravelDB()
+    private function submitToLaravelDB($pdfUrl)
     {
         $user = User::create([
             'name' => $this->vendor_name,
@@ -316,7 +316,7 @@ class MultiStepForm extends Component
 
 
                 // Generate PDF and get its URL
-                $pdfUrl = $this->generateAndStorePdf($vendor);
+
                 $filePaths = array_merge($filePaths, ['signature_path' => $pdfUrl]);
                 $vendor->update($filePaths);
 
@@ -336,14 +336,12 @@ class MultiStepForm extends Component
 
     }
 
-    private function submitToSuiteCRM($vendor)
+    private function submitToSuiteCRM($vendor,$pdfUrl)
     {
 
 
         $filePaths = $this->handleFileUploads($vendor);
-
-        $pdfUrl = $this->generateAndStorePdf($vendor);
-        $filePaths = array_merge($filePaths, ['signature_path' => $pdfUrl]);
+        $vendor->update(['signature_path' => $pdfUrl]);
 
 
         $vendor->update($filePaths);
@@ -493,8 +491,9 @@ class MultiStepForm extends Component
         DB::beginTransaction();
 
         try {
-            $vendor = $this->submitToLaravelDB();
-            $this->submitToSuiteCRM($vendor);
+            $pdfUrl = $this->generateAndStorePdf();
+            $vendor = $this->submitToLaravelDB($pdfUrl);
+            $this->submitToSuiteCRM($vendor,$pdfUrl);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

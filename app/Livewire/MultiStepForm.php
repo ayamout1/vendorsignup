@@ -206,7 +206,7 @@ class MultiStepForm extends Component
         // ... Any other SuiteCRM related operations ...
 
 
-    private function submitToLaravelDB($pdfUrl)
+    private function submitToLaravelDB()
     {
         $user = User::create([
             'name' => $this->vendor_name,
@@ -316,7 +316,7 @@ class MultiStepForm extends Component
 
 
                 // Generate PDF and get its URL
-
+                $pdfUrl = $this->generateAndStorePdf($vendor);
                 $filePaths = array_merge($filePaths, ['signature_path' => $pdfUrl]);
                 $vendor->update($filePaths);
 
@@ -331,20 +331,14 @@ class MultiStepForm extends Component
             // ... other fields to be updated ...
         ]
     );
-
-    return $vendor;
+    return ['vendor' => $vendor, 'filePaths' => $filePaths];
 
     }
 
-    private function submitToSuiteCRM($vendor,$pdfUrl)
+    private function submitToSuiteCRM($vendor, $filePaths)
     {
 
 
-        $filePaths = $this->handleFileUploads($vendor);
-        $vendor->update(['signature_path' => $pdfUrl]);
-
-
-        $vendor->update($filePaths);
 
          try {
 
@@ -491,9 +485,10 @@ class MultiStepForm extends Component
         DB::beginTransaction();
 
         try {
-            $pdfUrl = $this->generateAndStorePdf();
-            $vendor = $this->submitToLaravelDB($pdfUrl);
-            $this->submitToSuiteCRM($vendor,$pdfUrl);
+            $result = $this->submitToLaravelDB();
+        $vendor = $result['vendor'];
+        $filePaths = $result['filePaths'];
+            $this->submitToSuiteCRM($vendor,$filePaths);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -596,7 +591,7 @@ public function generateAndStorePdf($vendor)
     Storage::disk('linode')->put($pdfFilePath, $pdf->output(), 'public');
     $downloadUrl = 'https://vendorsubmissions.us-southeast-1.linodeobjects.com/' . $pdfFilePath;
 
-    Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl,$data));
+   // Mail::to($this->vendor_email)->send(new VendorAgreementMail($downloadUrl,$data));
 
     return $downloadUrl;
 }

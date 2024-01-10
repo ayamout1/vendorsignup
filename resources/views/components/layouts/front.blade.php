@@ -71,7 +71,38 @@
                             border: 1px solid rgba(0, 0, 0, 0.15);
                             border-radius: 0.25rem;
                             transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
 }
+
+
+        .section {
+            margin-bottom: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .section1 {
+            page-break-before: always;
+            font-family: Arial, Helvetica, sans-serif;
+
+        }
+        @font-face {
+        font-family: 'Pacifico';
+    }
+
+    .signature {
+        font-family: 'Pacifico', cursive;
+        font-size: 24px;
+    }
+        /* Style for unordered list items */
+ li{
+        font-weight: normal;  /* Override bold styling */
+    }
+
+    /* Style for scrollable section */
+    .scrollable-section {
+        max-height: 450px;  /* Maximum height */
+        overflow-y: scroll;  /* Enable vertical scrolling */
+    }
+
 </style>
 </head>
 <body>

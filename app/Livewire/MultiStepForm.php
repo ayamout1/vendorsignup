@@ -69,8 +69,10 @@ class MultiStepForm extends Component
  public $file_path;
 
  // Step 7 - Agreement Information
- public $is_certified, $signature_path, $name, $title;
+ public $is_certified, $signature_path;
 
+ public $name ='';
+public $title='';
 
  public $signatureImage;
 
@@ -186,7 +188,7 @@ class MultiStepForm extends Component
 
         if ($this->step == 7) {
             $this->validate([
-                'file_path' => 'nullable',  // Assuming W9 document is required
+                'file_path' => 'required',  // Assuming W9 document is required
             ]);
         }
 

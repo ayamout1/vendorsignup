@@ -13,13 +13,13 @@
                      <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
-                            Vendor Information 
+                            Vendor Information
                         </p>
                     </div>
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
-                            Address Information 
+                            Address Information
                         </p>
                     </div>
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
@@ -118,7 +118,7 @@
                 @error('standard_markup_percentage') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Are vehicles fully equipped?</label>
+                <label for="vehicles_fully_equipped"class="block text-sm font-medium text-gray-700">Are vehicles fully equipped?</label>
                 <input wire:model="vehicles_fully_equipped" type="checkbox" id="vehicles_fully_equipped" name="vehicles_fully_equipped" class="mt-1">
                 @error('vehicles_fully_equipped') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>

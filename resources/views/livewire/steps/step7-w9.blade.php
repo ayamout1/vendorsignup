@@ -6,20 +6,20 @@
                 </div>
                 <div class="row">
                     <span class="login100-form-title p-b-53" style="color: #0B1E2C;">
-                       w9 Submission
+                       W9 Submission
                     </span>
 
 
                      <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
-                            Vendor Information 
+                            Vendor Information
                         </p>
                     </div>
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
-                            Address Information 
+                            Address Information
                         </p>
                     </div>
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">

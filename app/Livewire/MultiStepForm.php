@@ -552,7 +552,7 @@ private function handleFileUploads($vendor)
 
     if ($this->file_path) {
 
-        $w9FilePathFull = $this->uploadFileAndGetPath($this->file_path, 'file_path', $this->vendor_name);
+        $w9FilePathFull = $this->uploadFileAndGetPath($this->file_path, 'w9', $this->vendor_name);
         $filePaths['file_path'] = $w9FilePathFull;
     }
 

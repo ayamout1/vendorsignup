@@ -1,6 +1,6 @@
 <!-- resources/views/pdf/vendor_agreement.blade.php -->
 <!doctype hl>
-<hl lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Vendor Agreement</title>
@@ -83,10 +83,11 @@
               </ul>
               <p>If at any time the requirements of TYSGlobal, the customer or OSHA are not consistent, the most stringent requirement will prevail. Safety for your workers, as well as the general public, is the most important aspect of the work. All requirements must be adhered to without exception. Filled in data below includes acceptance of all forms required by TYSGlobal including Confidentiality Agreement, Hold Harmless Agreement, Safety Agreement, terms and conditions herein.</p>
 
-            <div style=" margin-top: 30px;">
+            <div style=" margin-top: 20px;">
+                <p>{{ $title }}</p>
                 <p>Signature: </p>
                 <p class="signature" >{{ $name }}</p>
-                <p>{{ $title }}</p>
+                <p>Date: {{ date('d-m-Y') }}</p>
             </div>
         </div>
 
@@ -119,4 +120,4 @@
         </div> --}}
     </div>
 </body>
-</hl>
+</html>

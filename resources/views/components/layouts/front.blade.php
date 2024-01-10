@@ -90,7 +90,7 @@
 
     .signature {
         font-family: 'Pacifico', cursive;
-        font-size: 24px;
+        font-size: 18px;
     }
         /* Style for unordered list items */
  li{

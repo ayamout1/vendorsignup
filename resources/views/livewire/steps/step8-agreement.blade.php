@@ -5,14 +5,14 @@
 
         <div class="section">
             <div class="col-lg-12 col-sm-12" style="text-align: center;">
-                <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
+                <img src="images/TYS-Global-Logo-Blue.png" alt="TYSGlobal" style="width: inherit; max-width: 350px;">
                 <p style="margin-top: -15px; margin-bottom: 30px; text-align: center;">Vendor Agreement</p>
             </div>
             <p>TYSGlobal has certain secret, confidential information relating to sign construction, manufacturing processes and techniques to be disclosed to: <b>{{ $vendor_name }}</b>. For the purpose of your study preliminary to your decision as to whether or not you will provide a proposal to fabricate product and/or provide service to TYSGlobal. TYSGlobal consequently requests that from the date of disclosure to you by TYSGlobal, any information be kept secret and confidential by <b>{{ $vendor_name }}</b> and its employees and not be disclosed to others or used for any purpose other than that set forth in the Agreement without TYSGlobal's prior written consent. It is understood that the above commient to secrecy, confidentiality and non-use shall not extend to any matter:</p>
          <br />
             <div>
             <p>    Already in <b>{{ $vendor_name }}'s</b> possession prior to disclosure by TYSGlobal, or which is now or hereafter generally available to the public on a non-confidential basis through no act on the part of <b>{{ $vendor_name }}</b>, or
-                Which is disclosed to <b>{{ $vendor_name }}</b> by a third party having no obligation to TYSGlobal to refrain from so doing, which you have called to TYSGlobal 's attention, in writing, or that you have such knowledge
+                Which is disclosed to <b>{{ $vendor_name }}</b> by a third party having no obligation to TYSGlobal to refrain from so doing, which you have called to TYSGlobal's attention, in writing, or that you have such knowledge
                 Vendors shall not contact, pursue, or promote direct work with any of our clients. Vendors shall notify us if our client has reached out.
             </p>
             </div>
@@ -25,13 +25,13 @@
             <h2>HOLD HARMLESS AGREEMENT</h2>
             <br />
             <p>
-                Whereas, <b>{{ $vendor_name }}</b>  (hereinafter "Your Company"), agrees that as an independent contractor who installs, services and maintains signs manufactured, sold and/or leased by TYS Global. Your company will: Indemnify and hold harmless TYS Global for any claims, including attorney's fees, incurred, demands or expenses because of bodily injury, personal injury, emotional distress, wrongful death, property damage, loss of use of property, or other related expenses arising out of or in any way performed by Your Company for TYS Global except those claims due to the sole negligence or willful misconduct of TYS Global. Maintain in force at all relevant times worker's compensation (or employee accident insurance if allowed by your state in place of worker's compensation insurance) and employer's liability insurance covering all of Your Company's employees, agents, officers and directors who work on, install or maintain TYS Global signs and furnish to TYS Global insurance certificates as proof of insurance. This agreement shall be effective immediately upon execution.
+                Whereas, <b>{{ $vendor_name }}</b>  (hereinafter "Your Company"), agrees that as an independent contractor who installs, services and maintains signs manufactured, sold and/or leased by TYSGlobal. Your company will: Indemnify and hold harmless TYSGlobal for any claims, including attorney's fees, incurred, demands or expenses because of bodily injury, personal injury, emotional distress, wrongful death, property damage, loss of use of property, or other related expenses arising out of or in any way performed by Your Company for TYSGlobal except those claims due to the sole negligence or willful misconduct of TYSGlobal. Maintain in force at all relevant times worker's compensation (or employee accident insurance if allowed by your state in place of worker's compensation insurance) and employer's liability insurance covering all of Your Company's employees, agents, officers and directors who work on, install or maintain TYSGlobal signs and furnish to TYSGlobal insurance certificates as proof of insurance. This agreement shall be effective immediately upon execution.
             </p>
             <br />
             <h2>SAFETY AGREEMENT</h2>
             <br />
             <p>
-                As an installation subcontractor for TYS Global, you are required to maintain an ongoing safety program. This agreement is for the minimum safety requirements as required by TYS Global. You are completely responsible for safety on site. Prior to beginning any TYS Global project, all contractors will hold a safety meeting between management and the workers assigned. The agenda will address all OSHA requirements for workplace safety. Sign Installers & Contractors should especially give emphasis to the following requirements (The scope of your work will vary, items pertain where applicable):
+                As an installation subcontractor for TYSGlobal, you are required to maintain an ongoing safety program. This agreement is for the minimum safety requirements as required by TYSGlobal. You are completely responsible for safety on site. Prior to beginning any TYSGlobal project, all contractors will hold a safety meeting between management and the workers assigned. The agenda will address all OSHA requirements for workplace safety. Sign Installers & Contractors should especially give emphasis to the following requirements (The scope of your work will vary, items pertain where applicable):
             </p>
             <br />
             <div>

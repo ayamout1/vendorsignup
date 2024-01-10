@@ -33,13 +33,13 @@ protected $data;
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            from: new Address('procurement@tysglobal.net', 'Vendor News'),
-            subject: 'Signed Vendor Agreement',
-        );
-    }
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         from: new Address('procurement@tysglobal.net', 'Vendor News'),
+    //         subject: 'Signed Vendor Agreement',
+    //     );
+    // }
 
     /**
      * Get the message content definition.

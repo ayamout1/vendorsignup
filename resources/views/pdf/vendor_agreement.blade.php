@@ -87,7 +87,7 @@
                 <p>{{ $title }}</p>
                 <p>Signature: </p>
                 <p class="signature" >{{ $name }}</p>
-                <p>Date: {{ date('d-m-Y') }}</p>
+                <p>Date: {{ date('m-d-Y') }}</p>
             </div>
         </div>
 

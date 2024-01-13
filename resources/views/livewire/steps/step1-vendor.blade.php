@@ -102,16 +102,17 @@
                         <div class="form-group">
                             <label for="vendor_type">Vendor Type</label>
                             <select class="form-control" id="vendor_type" wire:model="vendor_type">
-                                    <option value="SignageInstallation" selected>Signage Installation</option>
-                                    <option value="SignageFabrication">Signage Fabrication</option>
-                                    <option value="WallpaperInstallation">Wallpaper Installation</option>
-                                    <option value="PaintandRestoration">Paint and Restoration</option>
+                                    <option value="Signage Installation" selected>Signage Installation</option>
+                                    <option value="Signage Fabrication">Signage Fabrication</option>
+                                    <option value="Wallpaper Installation">Wallpaper Installation</option>
+                                    <option value="Paint and Restoration">Paint and Restoration</option>
                                     <option value="Solar">Solar</option>
                                     <option value="Electrical">Electrical</option>
                                     <option value="Plumbing">Plumbing</option>
                                     <option value="Drywall">Drywall</option>
                                     <option value="EIFS">EIFS</option>
                                     <option value="Flooring">Flooring</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </select>
                         </div>
@@ -164,11 +165,12 @@
                             <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone)" placeholder="xxx-xxx-xxxx" class="contactadditional" id="contact_phone" name="contact_phone">
                             @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional" id="contact_position" name="contact_position">
+                                <option value="Owner" selected>Owner</option>
                                 <option value="Project Manager" selected>Project Manager</option>
                                 <option value="Designer">Designer</option>
                                 <option value="Engineer">Engineer</option>
                                 <option value="Architect">Architect</option>
-                                <option value="Super Intendent">Super Intendent</option>
+                                <option value="Superintendent">Superintendent</option>
                                 <option value="Estimator">Estimator</option>
                                 <option value="Permit Expeditor">Permit Expeditor</option>
                                 <option value="Admin">Admin</option>

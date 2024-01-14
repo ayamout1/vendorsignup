@@ -413,9 +413,34 @@ public $title='';
 
         ]);
 
+        $ownerContactId = Str::uuid(); // Generating a UUID for the contact record
+        DB::connection('suitecrm')->table('vsf_vendorcontact')->insert([
+            'id' => $ownerContactId,
+            'first_name' => $this->owner_name, // Adjust based on your fields
+            'phone_work' => $this->owner_phone,
+            'name' => $this->owner_name,
+            'email' => $this->vendor_email,
+            'phone' => $this->owner_phone,
+            'contact_type' => "Owner",
+            'modified_user_id' => $vendor->id,
+            'created_by' => "TYSPartners.com",
+            'assigned_user_id' => $vendor->id,
+            // ... other contact fields ...
+        ]);
+
+        // Insert relationship between owner contact and vendor (if applicable)
+        DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontact_1_c')->insert([
+            'id' => Str::uuid(),
+            'contact_id' => $ownerContactId,
+            'vsf_vendornetwork_id' => $vendor->id,
+            // ... other relationship fields ...
+        ]);
+
         foreach ($this->contacts as $contact) {
+
             // Insert each address into SuiteCRM's vsf_addressnew table
             $contactId = Str::uuid(); // Generating a UUID for the address record
+
             DB::connection('suitecrm')->table('vsf_vendorcontact')->insert([
 
                         'id' => $contactId,
@@ -424,8 +449,7 @@ public $title='';
                         'phone' => $contact['contact_phone'],
                         'contact_type' => $contact['contact_position'],
                         'modified_user_id' => $vendor->id,
-                        'created_by' => $vendor->id,
-                        'description' => 'Address for ' . $vendor->name,
+                        'created_by' => "TYSPartners.com",
                         'assigned_user_id' => $vendor->id,
 
             ]);
@@ -447,7 +471,7 @@ public $title='';
             DB::connection('suitecrm')->table('vsf_addressnew')->insert([
                 'id' => $addressId,
                 'name' => $vendor->name . ' Address',
-                'created_by' => $this->vendorId,
+                'created_by' => "TYSPartners.com",
                 'description' => 'Address for ' . $vendor->name,
                 'deleted' => 0,
                 'address_cnew_city' => $address['city'],

@@ -159,11 +159,11 @@
                     <h3 style="color: #101e2b;">Additional Contacts Number @numbertowords($countcontact)</h3>
                         <div class="contact-group" x-data="{ formatPhoneNumber }">
                             <input wire:model="contacts.{{$index}}.contact_name" type="text" placeholder="Contact Name" class="contactadditional" id="contact_name" name="contact_name">
-                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('contact_name') <span class="text-danger">{{ $message }}</span> @enderror
                             <input wire:model="contacts.{{$index}}.contact_email" type="email" placeholder="Contact Email" class="contactadditional" id="contact_email" name="contact_email">
-                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('contact_email') <span class="text-danger">{{ $message }}</span> @enderror
                             <input wire:model="contacts.{{$index}}.contact_phone" type="text" wire:model.lazy="contact_phone" x-ref="contact_phone" @blur="formatPhoneNumber($refs.contact_phone)" placeholder="xxx-xxx-xxxx" class="contactadditional" id="contact_phone" name="contact_phone">
-                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('contact_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             <select wire:model="contacts.{{$index}}.contact_position" type="text" placeholder="Contact Position" class="contactadditional" id="contact_position" name="contact_position">
                                 <option value="Owner" selected>Owner</option>
                                 <option value="Project Manager" selected>Project Manager</option>
@@ -177,7 +177,7 @@
                                 <option value="Accounting">Accounting</option>
                                 <option value="Other">OTHER</option>
                             </select>
-                            @error('owner_phone') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('contact_position') <span class="text-danger">{{ $message }}</span> @enderror
                             @if (count($contacts) > 1)
                             <button wire:click.prevent="removeContact({{$index}})" class="btn btn-danger">Remove</button>
                             @endif

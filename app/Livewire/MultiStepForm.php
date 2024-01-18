@@ -25,6 +25,8 @@ Use Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
+
+
 class MultiStepForm extends Component
 {
     use WithFileUploads;
@@ -43,6 +45,7 @@ class MultiStepForm extends Component
  public $contacts = [
     ['contact_name' => '', 'contact_email' => '', 'contact_phone' => '', 'contact_position' => ''],
 ];
+
 
 
  // Step 2 - Insurance Information
@@ -88,7 +91,7 @@ public $title='';
 
     public function nextStep()
     {
-        $this->validateData();
+        // $this->validateData();
         $this->step++;
     }
 
@@ -97,110 +100,110 @@ public $title='';
         $this->step--;
     }
 
-    public function validateData()
-    {
-        if ($this->step == 1) {
-            $this->validate([
-                'vendor_name' => 'required',
-                'owner_name' => 'required',
-                'owner_phone' => 'required',
-                'vendor_type' => 'nullable',
-                'vendor_phone' => 'required',
-                'vendor_email' => 'required|email|unique:vendors,vendor_email',
-                'vendor_fax' => 'nullable',
-                'vendor_website' => 'nullable',
+    // public function validateData()
+    // {
+    //     if ($this->step == 1) {
+    //         $this->validate([
+    //             'vendor_name' => 'required',
+    //             'owner_name' => 'required',
+    //             'owner_phone' => 'required',
+    //             'vendor_type' => 'nullable',
+    //             'vendor_phone' => 'required',
+    //             'vendor_email' => 'required|email|unique:vendors,vendor_email',
+    //             'vendor_fax' => 'nullable',
+    //             'vendor_website' => 'nullable',
 
 
-            ]);
-        }
-        if ($this->step == 2) {
-            $rules = [];
-            foreach ($this->addresses as $index => $address) {
-                $rules["addresses.{$index}.address"] = 'required|string|max:255';
-                $rules["addresses.{$index}.address2"] = 'nullable|string|max:255';
-                $rules["addresses.{$index}.city"] = 'required|string|max:255';
-                $rules["addresses.{$index}.state"] = 'required|string|max:255';
-                $rules["addresses.{$index}.postal"] = 'required|numeric|digits:5';
-                $rules["addresses.{$index}.country"] = 'required|string|max:255';
-                $rules["addresses.{$index}.address_type"] = 'sometimes|string|max:255';
-            }
+    //         ]);
+    //     }
+    //     if ($this->step == 2) {
+    //         $rules = [];
+    //         foreach ($this->addresses as $index => $address) {
+    //             $rules["addresses.{$index}.address"] = 'required|string|max:255';
+    //             $rules["addresses.{$index}.address2"] = 'nullable|string|max:255';
+    //             $rules["addresses.{$index}.city"] = 'required|string|max:255';
+    //             $rules["addresses.{$index}.state"] = 'required|string|max:255';
+    //             $rules["addresses.{$index}.postal"] = 'required|numeric|digits:5';
+    //             $rules["addresses.{$index}.country"] = 'required|string|max:255';
+    //             $rules["addresses.{$index}.address_type"] = 'sometimes|string|max:255';
+    //         }
 
-            $this->validate($rules);
-        }
+    //         $this->validate($rules);
+    //     }
 
 
 
-        if ($this->step == 3) {
-            // Since file validation can get a bit tricky and depends on how you handle files,
-            // I've provided a simple example. You might need to adjust as per your actual requirements.
-            $this->validate([
-                'vehicle_file' => 'nullable|file',
-                'vehicle_effective_date' => 'nullable|date',
-                'vehicle_expiration_date' => 'nullable|date',
-                'general_liability_file' => 'nullable|file',
-                'general_effective_date' => 'nullable|date',
-                'general_expiry_date' => 'nullable|date',
-                'worker_file' => 'nullable|file',
-                'worker_effective_date' => 'nullable|date',
-                'worker_expiry_date' => 'nullable|date',
-            ]);
-        }
+    //     if ($this->step == 3) {
+    //         // Since file validation can get a bit tricky and depends on how you handle files,
+    //         // I've provided a simple example. You might need to adjust as per your actual requirements.
+    //         $this->validate([
+    //             'vehicle_file' => 'nullable|file',
+    //             'vehicle_effective_date' => 'nullable|date',
+    //             'vehicle_expiration_date' => 'nullable|date',
+    //             'general_liability_file' => 'nullable|file',
+    //             'general_effective_date' => 'nullable|date',
+    //             'general_expiry_date' => 'nullable|date',
+    //             'worker_file' => 'nullable|file',
+    //             'worker_effective_date' => 'nullable|date',
+    //             'worker_expiry_date' => 'nullable|date',
+    //         ]);
+    //     }
 
-        if ($this->step == 4) {
-            $this->validate([
-                'geographic_service_area_miles' => 'nullable|numeric',
-                'no_mileage_charge_area_miles' => 'nullable|numeric',
-                'service_response_time_in_service_area' => 'nullable|string',
-                'service_response_time_in_no_charge_area' => 'nullable|string',
-                'workmanship_warranty' => 'nullable|string',
-                'supplies_materials_warranty' => 'nullable|string',
-                'standard_markup_percentage' => 'nullable|numeric',
-                'vehicles_fully_equipped' => 'nullable|boolean',
-                'special_notes' => 'nullable|string',
-            ]);
-        }
+    //     if ($this->step == 4) {
+    //         $this->validate([
+    //             'geographic_service_area_miles' => 'nullable|numeric',
+    //             'no_mileage_charge_area_miles' => 'nullable|numeric',
+    //             'service_response_time_in_service_area' => 'nullable|string',
+    //             'service_response_time_in_no_charge_area' => 'nullable|string',
+    //             'workmanship_warranty' => 'nullable|string',
+    //             'supplies_materials_warranty' => 'nullable|string',
+    //             'standard_markup_percentage' => 'nullable|numeric',
+    //             'vehicles_fully_equipped' => 'nullable|boolean',
+    //             'special_notes' => 'nullable|string',
+    //         ]);
+    //     }
 
-        if ($this->step == 5) {
-            $this->validate([
-                'equipment_type' => 'nullable|string',
-                'make_and_model' => 'nullable|string',
-                'reach' => 'nullable|string',
-                'quantity' => 'nullable|numeric',
-                'notes' => 'nullable|string',
-            ]);
-        }
+    //     if ($this->step == 5) {
+    //         $this->validate([
+    //             'equipment_type' => 'nullable|string',
+    //             'make_and_model' => 'nullable|string',
+    //             'reach' => 'nullable|string',
+    //             'quantity' => 'nullable|numeric',
+    //             'notes' => 'nullable|string',
+    //         ]);
+    //     }
 
-        if ($this->step == 6) {
-            $this->validate([
-                'concrete_per_yard' => 'nullable|numeric',
-                'rebar' => 'nullable|numeric',
-                'survey' => 'nullable|numeric',
-                'permit_staff_per_hour' => 'nullable|numeric',
-                'neon_per_unit_general' => 'nullable|numeric',
-                'backhoe_minimum' => 'nullable|numeric',
-                'auger_minimum' => 'nullable|numeric',
-                'industrial_crane_minimum' => 'nullable|numeric',
-                'high_risk_staging' => 'nullable|numeric',
-                'truck_1_technician_per_hour' => 'nullable|numeric',
-                'truck_2_technician_per_hour' => 'nullable|numeric',
-            ]);
-        }
+    //     if ($this->step == 6) {
+    //         $this->validate([
+    //             'concrete_per_yard' => 'nullable|numeric',
+    //             'rebar' => 'nullable|numeric',
+    //             'survey' => 'nullable|numeric',
+    //             'permit_staff_per_hour' => 'nullable|numeric',
+    //             'neon_per_unit_general' => 'nullable|numeric',
+    //             'backhoe_minimum' => 'nullable|numeric',
+    //             'auger_minimum' => 'nullable|numeric',
+    //             'industrial_crane_minimum' => 'nullable|numeric',
+    //             'high_risk_staging' => 'nullable|numeric',
+    //             'truck_1_technician_per_hour' => 'nullable|numeric',
+    //             'truck_2_technician_per_hour' => 'nullable|numeric',
+    //         ]);
+    //     }
 
-        if ($this->step == 7) {
-            $this->validate([
-                'file_path' => 'required',  // Assuming W9 document is required
-            ]);
-        }
+    //     if ($this->step == 7) {
+    //         $this->validate([
+    //             'file_path' => 'required',  // Assuming W9 document is required
+    //         ]);
+    //     }
 
-        if ($this->step == 8) {
-            $this->validate([
-                'is_certified' => 'required|boolean',
-                'signature_path' => 'nullable|file|mimes:png,jpg,jpeg,pdf',  // You might want to ensure a file size limit here too.
-                'name' => 'required|string',
-                'title' => 'required|string',
-            ]);
-        }
-    }
+    //     if ($this->step == 8) {
+    //         $this->validate([
+    //             'is_certified' => 'required|boolean',
+    //             'signature_path' => 'nullable|file|mimes:png,jpg,jpeg,pdf',  // You might want to ensure a file size limit here too.
+    //             'name' => 'required|string',
+    //             'title' => 'required|string',
+    //         ]);
+    //     }
+    // }
 
     public $vendorId; // Add this line to declare the property
 

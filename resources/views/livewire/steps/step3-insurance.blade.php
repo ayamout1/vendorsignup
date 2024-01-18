@@ -1,30 +1,25 @@
-<div class="row">
-                    <div class="col-lg-12 col-sm-12" style="text-align: center;">
-                        <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
-                        <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
-                    </div>
-                </div>
+<div class="col-lg-12 col-sm-12" style="text-align: center;">
+    <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
+    <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
+</div>
                 <div class="row">
-                    <span class="login100-form-title p-b-53" style="color: #0B1E2C;">
-                        Insurance Requirements 
-                    </span>
 
-
-                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
-                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
-                            <i class="fa-solid fa-square-check"></i>
-                            Vendor Information 
-                        </p>
-                    </div>
-                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
-                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
-                            <i class="fa-solid fa-square-check"></i>
-                            Address Information 
-                        </p>
-                    </div>
 
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" style="width: 100%;background-color: white;font-size: 12px;justify-content: left;">
+                            <i class="fa-solid fa-square-check"></i>
+                            Vendor Information
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
+                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
+                            <i class="fa-solid fa-square-check"></i>
+                           Address Information
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
+                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
                             Insurance Requirements & Certificates of Insurance
                         </p>
@@ -57,7 +52,7 @@
                             W9 Form Submission
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
+                                        <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
 
@@ -65,7 +60,7 @@
                         </p>
                     </div>
                 </div>
-<div class="container mt-4">
+
     <div class="row">
 
         <!-- Left Column -->
@@ -86,7 +81,7 @@
                 <input wire:model="vehicle_expiration_date" type="date" id="vehicle_expiration_date" name="vehicle_expiration_date" class="form-control mt-1">
                 @error('vehicle_expiration_date') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
-<hr />
+            <hr />
             <!-- Worker Insurance -->
             <div class="mb-4">
                 <label for="worker_file" class="block text-sm font-medium text-gray-700">Worker Insurance File</label>
@@ -127,4 +122,3 @@
     </div>
 
 
-</div>

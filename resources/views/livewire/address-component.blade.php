@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-12 mt-3">
             <button wire:click="addAddress" class="btn btn-success">Add Address</button>
-            <button wire:click="nextStep" class="btn btn-primary">Next</button>
+
         </div>
     </div>
 </div>

@@ -1,26 +1,20 @@
-<div class="row">
-                    <div class="col-lg-12 col-sm-12" style="text-align: center;">
-                        <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
-                        <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
-                    </div>
-                </div>
+<div class="col-lg-12 col-sm-12" style="text-align: center;">
+    <img src="images/TYS-Global-Logo-Blue.png" alt="TYS Global" style="width: inherit; max-width: 350px;">
+    <p style="margin-top: -15px; margin-bottom: 30px;">New Subcontractor Submission</p>
+</div>
                 <div class="row">
-                    <span class="login100-form-title p-b-53" style="color: #0B1E2C;">
-                        Address Information
-                    </span>
 
-
-                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
-                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
-                            <i class="fa-solid fa-square-check"></i>
-                            Vendor Information
-                        </p>
-                    </div>
 
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" style="width: 100%;background-color: white;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
-                            Address Information
+                            Vendor Information
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
+                        <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
+                            <i class="fa-solid fa-square-check"></i>
+                           Address Information
                         </p>
                     </div>
 
@@ -30,7 +24,6 @@
                             Insurance Requirements & Certificates of Insurance
                         </p>
                     </div>
-
 
                     <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
@@ -59,7 +52,7 @@
                             W9 Form Submission
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
+                                        <div class="col-lg-3 col-sm-6" style="display: flex;justify-content: center;">
                         <p class="btn-face m-b-20" onMouseOver="this.style.color='#ffffff'" onMouseOut="this.style.color='#adadad'" style="width: 100%;background-color: white;color: #adadad;font-size: 12px;justify-content: left;">
                             <i class="fa-solid fa-square-check"></i>
 
@@ -67,7 +60,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="container">
+                <div class="row">
                     @foreach ($addresses as $index => $address)
                     <?php $countcontact = $index + 1 ?>
                         <div class="mb-4">

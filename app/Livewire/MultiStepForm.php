@@ -46,6 +46,16 @@ class MultiStepForm extends Component
     ['contact_name' => '', 'contact_email' => '', 'contact_phone' => '', 'contact_position' => ''],
 ];
 
+public $equipments = [
+    [ // Initialize with a single equipment entry
+        'equipment_type' => '',
+        'make_and_model' => '',
+        'reach' => '',
+        'quantity' => '',
+        'notes' => '',
+    ]
+];
+
 
 
  // Step 2 - Insurance Information
@@ -652,6 +662,23 @@ public function removeContact($index)
 {
     unset($this->contacts[$index]);
     $this->contacts = array_values($this->contacts);
+}
+
+public function addEquipment(){
+    $this->equipments[] = [ // Add new equipment entry
+        'equipment_type' => '',
+        'make_and_model' => '',
+        'reach' => '',
+        'quantity' => '',
+        'notes' => ''
+    ];
+}
+
+public function removeEquipment($index2){
+    if (array_key_exists($index2, $this->equipments)) {
+        unset($this->equipments[$index2]);
+        $this->equipments = array_values($this->equipments); // Reindex array
+    }
 }
 
 

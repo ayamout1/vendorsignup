@@ -10,7 +10,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $fillable = [
-       'id','vendor_id','contact_name','contact_email','contact_phone','contact_position'
+       'id','vendor_id','contact_name','contact_email','contact_phone','contact_position','contact_phone_extension'
 
     ];
     public function vendor()

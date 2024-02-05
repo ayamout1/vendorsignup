@@ -62,40 +62,56 @@
                 </div>
     <!-- Equipment Information -->
     <div class="mb-4">
-        <!-- Equipment Type -->
-        <div class="mb-2">
-            <label for="equipment_type" class="block text-sm font-medium text-gray-700">Equipment Type</label>
-            <input wire:model="equipment_type" type="text" id="equipment_type" name="equipment_type" class="mt-1 p-2 w-full border rounded-md" required>
-            @error('equipment_type') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
+        @foreach ($equipments as $index2 => $equipment)
+            <?php $countEquipment = (int)$index2 + 1 ?>
+            <h3 style="color: #101e2b;">Equipment @numbertowords($countEquipment)</h3>
 
-        <!-- Make and Model -->
-        <div class="mb-2">
-            <label for="make_and_model" class="block text-sm font-medium text-gray-700">Make and Model</label>
-            <input wire:model="make_and_model" type="text" id="make_and_model" name="make_and_model" class="mt-1 p-2 w-full border rounded-md" required>
-            @error('make_and_model') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
+            <!-- Equipment Type -->
+            <div class="mb-2">
+                <select wire:model="equipments.{{$index2}}.equipment_type" class="mt-1 p-2 w-full border rounded-md" id="equipment_type_{{$index2}}" name="equipment_type_{{$index2}}">
+                    <option value="">Select Equipment Type</option>
+                    <option value="Crane">Crane</option>
+                    <option value="Bucket Truck">Bucket Truck</option>
+                    <option value="Interior Lift">Interior Lift</option>
+                    <option value="Exterior Lift">Exterior Lift</option>
+                    <option value="Trailer">Trailer</option>
+                    <option value="Other">OTHER</option>
+                </select>
+                @error("equipments.$index2.equipment_type") <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
 
-        <!-- Reach -->
-        <div class="mb-2">
-            <label for="reach" class="block text-sm font-medium text-gray-700">Reach</label>
-            <input wire:model="reach" type="text" id="reach" name="reach" class="mt-1 p-2 w-full border rounded-md">
-            @error('reach') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
+            <!-- Make and Model -->
+            <div class="mb-2">
+                <label for="make_and_model_{{$index2}}" class="block text-sm font-medium text-gray-700">Make and Model</label>
+                <input wire:model="equipments.{{$index2}}.make_and_model" type="text" id="make_and_model_{{$index2}}" name="make_and_model_{{$index2}}" class="mt-1 p-2 w-full border rounded-md" required>
+                @error("equipments.$index2.make_and_model") <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
 
-        <!-- Quantity -->
-        <div class="mb-2">
-            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-            <input wire:model="quantity" type="text" id="quantity" name="quantity" class="mt-1 p-2 w-full border rounded-md">
-            @error('quantity') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
+            <!-- Reach -->
+            <div class="mb-2">
+                <label for="reach_{{$index2}}" class="block text-sm font-medium text-gray-700">Reach</label>
+                <input wire:model="equipments.{{$index2}}.reach" type="text" id="reach_{{$index2}}" name="reach_{{$index2}}" class="mt-1 p-2 w-full border rounded-md">
+                @error("equipments.$index2.reach") <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
 
-        <!-- Notes with Markdown Editor -->
-        <!-- Assuming you have a Markdown Editor component or something similar integrated -->
-        <div class="mb-2">
-            <label for="notes" class="block text-sm font-medium text-gray-700">Notes</label>
-            <textarea wire:model="notes" id="notes" name="notes" class="mt-1 p-2 w-full border rounded-md"></textarea>
-            @error('notes') <span class="text-red-500">{{ $message }}</span> @enderror
-        </div>
+            <!-- Quantity -->
+            <div class="mb-2">
+                <label for="quantity_{{$index2}}" class="block text-sm font-medium text-gray-700">Quantity</label>
+                <input wire:model="equipments.{{$index2}}.quantity" type="text" id="quantity_{{$index2}}" name="quantity_{{$index2}}" class="mt-1 p-2 w-full border rounded-md">
+                @error("equipments.$index2.quantity") <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Notes with Markdown Editor -->
+            <div class="mb-2">
+                <label for="notes_{{$index2}}" class="block text-sm font-medium text-gray-700">Notes</label>
+                <textarea wire:model="equipments.{{$index2}}.notes" id="notes_{{$index2}}" name="notes_{{$index2}}" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                @error("equipments.$index2.notes") <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            @if (count($equipments) > 1)
+                <button wire:click.prevent="removeEquipment({{$index2}})" class="btn btn-danger">Remove</button>
+            @endif
+
+        @endforeach
+        <button wire:click.prevent="addEquipment" class="btn btn-primary">Add Equipment</button>
     </div>
-

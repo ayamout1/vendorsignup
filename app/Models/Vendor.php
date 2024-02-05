@@ -21,7 +21,7 @@ class Vendor extends Model
 
     protected $fillable = [
         'user_id', 'vendor_name', 'owner_name', 'owner_phone', 'vendor_type', 'vendor_phone',
-        'vendor_fax', 'vendor_email', 'vendor_website'
+        'vendor_fax', 'vendor_email', 'vendor_website', 'vendor_phone_extension'
     ];
     protected $dates = ['deleted_at'];
 

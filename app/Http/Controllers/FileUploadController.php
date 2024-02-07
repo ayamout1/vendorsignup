@@ -85,7 +85,7 @@ class FileUploadController extends Controller
                 DB::connection('suitecrm')
                     ->table('vsf_vendornetwork')
                     ->where('vendor_email_c', $email)
-                    ->update(['general_liability_file_c' => 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/'.$filePath]);
+                    ->update(['general_liability_file_path_c' => 'https://vendornetworkfiles.us-southeast-1.linodeobjects.com/'.$filePath]);
             }
             if($request->hasFile('worker_file')){
                 $file = $request->file('worker_file');

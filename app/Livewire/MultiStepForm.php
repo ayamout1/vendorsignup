@@ -36,7 +36,7 @@ class MultiStepForm extends Component
 
     public $vendor;
 
-    public $vendor_name, $owner_name, $owner_phone, $vendor_type, $vendor_phone, $vendor_email, $vendor_fax, $vendor_website;
+    public $vendor_name, $owner_name, $owner_phone, $vendor_type, $vendor_phone, $vendor_email, $vendor_fax, $vendor_website, $vendor_ext;
 
     public $contact_phone;
 
@@ -235,6 +235,7 @@ public $title='';
             'owner_phone' => $this->owner_phone,
             'vendor_type' => $this->vendor_type,
             'vendor_phone' => $this->vendor_phone,
+            'vendor_phone_extension' =>vendor_ext,
             'vendor_email' => $this->vendor_email,
             'vendor_fax' => $this->vendor_fax,
             'vendor_website' => $this->vendor_website,

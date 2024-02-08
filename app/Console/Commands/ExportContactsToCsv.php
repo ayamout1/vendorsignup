@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 class ExportContactsToCsv extends Command
 {
     protected $signature = 'export:contacts';
-    protected $description = 'Exports contacts and their corresponding vendor names to a CSV file.';
+    protected $description = 'Exports contacts and their corresponding vendor names to a CSV file, including SuiteCRM vendor ID.';
 
     public function handle()
     {
@@ -25,21 +25,20 @@ class ExportContactsToCsv extends Command
 
         $file = fopen($filePath, 'w');
 
-        // Fetch SuiteCRM vendor IDs by vendor_name
+        // Fetch SuiteCRM vendor IDs indexed by vendor_name from the SuiteCRM database connection
         $suitecrmVendorIds = DB::connection('suitecrm')
-            ->table('vsf_vendornetwork') // Replace with your actual SuiteCRM vendors table
-            ->pluck('id', 'name'); // Assume 'suitecrm_vendor_id' and 'vendor_name' are your columns
+            ->table('vsf_vendornetwork') // Adjust with your actual SuiteCRM vendor table
+            ->pluck('id', 'name'); // Ensure 'id' and 'name' match the actual columns in SuiteCRM
 
-        // Set the column headers including SuiteCRM Vendor ID
+        // Set the column headers for the CSV file
         fputcsv($file, ['ID', 'SuiteCRM Vendor ID', 'Vendor Name', 'Contact Name', 'Contact Email', 'Contact Phone', 'Contact Position', 'Contact Phone Extension', 'Created At', 'Updated At']);
 
-        // Fetch the data
+        // Fetch the contact data from your SQLite database
         $contacts = DB::table('contacts as c')
             ->join('vendors as v', 'c.vendor_id', '=', 'v.id')
             ->select(
                 'c.id',
-                'v.id as vendor_id',
-                'v.vendor_name as vendor_name',
+                'v.name as vendor_name', // Ensure this matches the column in your vendors table
                 'c.contact_name',
                 'c.contact_email',
                 'c.contact_phone',
@@ -50,20 +49,31 @@ class ExportContactsToCsv extends Command
             )
             ->get();
 
-        // Write each row to the CSV file
+        // Write each contact row to the CSV file, including the SuiteCRM Vendor ID
         foreach ($contacts as $contact) {
-            // Convert the $contact object to an array if it's not already
-            $contactArray = (array)$contact;
-            // Add SuiteCRM Vendor ID to the array
-            $contactArray['SuiteCRM Vendor ID'] = $suitecrmVendorIds[$contact->vendor_id] ?? 'Not Found';
-            // Write the modified array to the CSV file
-            fputcsv($file, $contactArray);
+            $contactArray = (array)$contact; // Ensure $contact is properly cast to an array
+            // Use vendor_name to fetch the corresponding SuiteCRM Vendor ID
+            $contactArray['SuiteCRM Vendor ID'] = $suitecrmVendorIds[$contact->vendor_name] ?? 'Not Found';
+
+            // Prepare the row data ensuring correct order and inclusion of all desired fields
+            $rowData = [
+                $contactArray['id'],
+                $contactArray['SuiteCRM Vendor ID'], // Include the SuiteCRM Vendor ID in the CSV row
+                $contactArray['vendor_name'],
+                $contactArray['contact_name'],
+                $contactArray['contact_email'],
+                $contactArray['contact_phone'],
+                $contactArray['contact_position'],
+                $contactArray['contact_phone_extension'],
+                $contactArray['created_at'],
+                $contactArray['updated_at']
+            ];
+
+            fputcsv($file, $rowData); // Write the row to the CSV file
         }
 
-
-        fclose($file);
+        fclose($file); // Close the file after writing all contacts
 
         $this->info('Export completed: ' . $filePath);
     }
-
 }

@@ -28,7 +28,7 @@ class ExportContactsToCsv extends Command
         // Fetch SuiteCRM vendor IDs by vendor_name
         $suitecrmVendorIds = DB::connection('suitecrm')
             ->table('vsf_vendornetwork') // Replace with your actual SuiteCRM vendors table
-            ->pluck('suitecrm_vendor_id', 'vendor_name'); // Assume 'suitecrm_vendor_id' and 'vendor_name' are your columns
+            ->pluck('id', 'vendor_name'); // Assume 'suitecrm_vendor_id' and 'vendor_name' are your columns
 
         // Set the column headers including SuiteCRM Vendor ID
         fputcsv($file, ['ID', 'SuiteCRM Vendor ID', 'Vendor Name', 'Contact Name', 'Contact Email', 'Contact Phone', 'Contact Position', 'Contact Phone Extension', 'Created At', 'Updated At']);

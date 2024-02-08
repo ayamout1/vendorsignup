@@ -38,7 +38,7 @@ class ExportContactsToCsv extends Command
             ->join('vendors as v', 'c.vendor_id', '=', 'v.id')
             ->select(
                 'c.id',
-                'v.name as vendor_name', // Ensure this matches the column in your vendors table
+                'v.vendor_name as vendor_name', // Ensure this matches the column in your vendors table
                 'c.contact_name',
                 'c.contact_email',
                 'c.contact_phone',

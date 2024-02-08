@@ -51,10 +51,14 @@ class ExportContactsToCsv extends Command
 
         // Write each row to the CSV file
         foreach ($contacts as $contact) {
-            // Add SuiteCRM Vendor ID to each row if available
-            $suitecrmVendorId = $suitecrmVendorIds[$contact->vendor_name] ?? 'Not Found';
-            fputcsv($file, array_merge([(array) $contact, 'SuiteCRM Vendor ID' => $suitecrmVendorId]));
+            // Convert the $contact object to an array if it's not already
+            $contactArray = (array)$contact;
+            // Add SuiteCRM Vendor ID to the array
+            $contactArray['SuiteCRM Vendor ID'] = $suitecrmVendorIds[$contact->vendor_name] ?? 'Not Found';
+            // Write the modified array to the CSV file
+            fputcsv($file, $contactArray);
         }
+
 
         fclose($file);
 

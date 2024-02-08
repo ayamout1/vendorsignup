@@ -430,8 +430,6 @@ public $title='';
         $ownerContactId = Str::uuid(); // Generating a UUID for the contact record
         DB::connection('suitecrm')->table('vsf_vendorcontact')->insert([
             'id' => $ownerContactId,
-            'first_name' => $this->owner_name, // Adjust based on your fields
-            'phone_work' => $this->owner_phone,
             'name' => $this->owner_name,
             'email' => $this->vendor_email,
             'phone' => $this->owner_phone,

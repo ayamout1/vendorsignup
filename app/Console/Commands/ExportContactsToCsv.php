@@ -38,6 +38,7 @@ class ExportContactsToCsv extends Command
             ->join('vendors as v', 'c.vendor_id', '=', 'v.id')
             ->select(
                 'c.id',
+                'v.id as vendor_id',
                 'v.vendor_name as vendor_name',
                 'c.contact_name',
                 'c.contact_email',
@@ -54,7 +55,7 @@ class ExportContactsToCsv extends Command
             // Convert the $contact object to an array if it's not already
             $contactArray = (array)$contact;
             // Add SuiteCRM Vendor ID to the array
-            $contactArray['SuiteCRM Vendor ID'] = $suitecrmVendorIds[$contact->vendor_name] ?? 'Not Found';
+            $contactArray['SuiteCRM Vendor ID'] = $suitecrmVendorIds[$contact->vendor_id] ?? 'Not Found';
             // Write the modified array to the CSV file
             fputcsv($file, $contactArray);
         }

@@ -31,7 +31,7 @@ class ImportAddressesFromCsv extends Command
 
             DB::connection('suitecrm')->table('vsf_addressnew')->insert([
                 'id' => $addressId,
-                'name' => $record['Vendor Name'] . ' Address',
+                'name' => $record['Vendor Name'],
                 'created_by' => "LaravelImport",
                 'description' => 'Address for ' . $record['Vendor Name'],
                 'deleted' => 0,

@@ -443,8 +443,8 @@ public $title='';
         // Insert relationship between owner contact and vendor (if applicable)
         DB::connection('suitecrm')->table('vsf_vendornetwork_vsf_vendorcontact_1_c')->insert([
             'id' => Str::uuid(),
-            'contact_id' => $ownerContactId,
-            'vsf_vendornetwork_id' => $vendor->id,
+            'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendorcontact_idb' => $ownerContactId,
+            'vsf_vendornetwork_vsf_vendorcontact_1vsf_vendornetwork_ida' => $vendor->id,
             // ... other relationship fields ...
         ]);
 

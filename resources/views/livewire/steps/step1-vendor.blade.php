@@ -107,6 +107,7 @@
                                     <option value="Wallpaper Installation">Wallpaper Installation</option>
                                     <option value="Paint and Restoration">Paint and Restoration</option>
                                     <option value="Solar">Solar</option>
+                                    <option value="Landscape">Landscape</option>
                                     <option value="Masonry">Masonry</option>
                                     <option value="Electrical">Electrical</option>
                                     <option value="Plumbing">Plumbing</option>

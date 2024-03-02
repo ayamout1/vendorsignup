@@ -15,7 +15,7 @@ class GeocodeController extends Controller
     public function geocode(Request $request)
     {
         $address = $request->input('address');
-        $apiKey = env('GOOGLE_MAPS_API_KEY');
+        $apiKey = 'AIzaSyC-uinPGEDW4voYvER7uMRLCxFE6z3aRUM';
 
         if (empty($address) || empty($apiKey)) {
             return back()->with('error', 'Address and Google Maps API key are required.');

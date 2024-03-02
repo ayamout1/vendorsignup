@@ -19,6 +19,8 @@ class GeocodeVendors extends Command
             ->select('vsf_vendornetwork.id', 'vsf_vendornetwork.address_c', 'vsf_vendornetwork.city_c', 'vsf_vendornetwork.state_c', 'vsf_vendornetwork.postal_c', 'vsf_vendornetwork_cstm.latitude_c', 'vsf_vendornetwork_cstm.longitude_c')
             ->get();
 
+            dd($vendors);
+
         $geocodedCount = 0; // To keep track of how many addresses were geocoded
 
         foreach ($vendors as $vendor) {

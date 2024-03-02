@@ -13,6 +13,7 @@ class GeocodeVendors extends Command
 
     public function handle()
     {
+        \Log::info("GeocodeVendors command started.");
         $vendors = DB::connection('suitecrm')->table('vsf_vendornetwork')
             ->leftJoin('vsf_vendornetwork_cstm', 'vsf_vendornetwork.id', '=', 'vsf_vendornetwork_cstm.id_c')
             ->select('vsf_vendornetwork.id', 'vsf_vendornetwork.address_c', 'vsf_vendornetwork.city_c', 'vsf_vendornetwork.state_c', 'vsf_vendornetwork.postal_c', 'vsf_vendornetwork_cstm.latitude_c', 'vsf_vendornetwork_cstm.longitude_c')
@@ -24,6 +25,7 @@ class GeocodeVendors extends Command
             if (is_null($vendor->latitude_c) || is_null($vendor->longitude_c)) {
                 $address = "{$vendor->address_c}, {$vendor->city_c}, {$vendor->state_c} {$vendor->postal_c}";
                 $geoData = $this->geocodeAddress($address);
+                dd($geoData);
 
                 if ($geoData) {
                     \Log::info("Updating geocode for vendor: {$vendor->id}", ['geoData' => $geoData]);

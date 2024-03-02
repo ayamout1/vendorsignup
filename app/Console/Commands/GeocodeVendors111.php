@@ -6,9 +6,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
-class GeocodeVendors extends Command
+class GeocodeVendors1111 extends Command
 {
-    protected $signature = 'geocode:vendors';
+    protected $signature = 'geocod111e:vendo111rs';
     protected $description = 'Geocode vendor addresses and update or insert their lat/lng in the database';
 
     public function handle()
@@ -55,6 +55,7 @@ class GeocodeVendors extends Command
 
         $this->info("Geocoding complete. Total addresses geocoded: {$geocodedCount}.");
     }
+
 
     protected function geocodeAddress($address)
     {

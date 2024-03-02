@@ -27,7 +27,12 @@ class GeocodeController extends Controller
         ]);
 
         if (!$response->successful() || empty($response->json('results'))) {
-            return back()->with('error', 'Failed to geocode the address.');
+            \Log::error("Geocoding failed", [
+                'address' => $address,
+                'response_status' => $response->status(),
+                'response_body' => $response->body(),
+            ]);
+            return null;
         }
 
         $data = $response->json();

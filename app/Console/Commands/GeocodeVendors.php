@@ -13,6 +13,9 @@ class GeocodeVendors extends Command
 
     public function handle()
     {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+
         \Log::info("GeocodeVendors command started.");
         $vendors = DB::connection('suitecrm')->table('vsf_vendornetwork')
             ->leftJoin('vsf_vendornetwork_cstm', 'vsf_vendornetwork.id', '=', 'vsf_vendornetwork_cstm.id_c')

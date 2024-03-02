@@ -26,7 +26,8 @@ class GeocodeVendors extends Command
                 $geoData = $this->geocodeAddress($address);
 
                 if ($geoData) {
-                    DB::connection('suitecrm')->table('vsf_vendornetwork_cstm')
+                    \Log::info("Updating geocode for vendor: {$vendor->id}", ['geoData' => $geoData]);
+                    $updateResult = DB::connection('suitecrm')->table('vsf_vendornetwork_cstm')
                         ->updateOrInsert(
                             ['id_c' => $vendor->id],
                             [
@@ -34,7 +35,11 @@ class GeocodeVendors extends Command
                                 'latitude_c' => $geoData['lat'],
                             ]
                         );
-                    $geocodedCount++; // Increment the count for each successful geocode
+                    if ($updateResult) {
+                        $geocodedCount++;
+                    } else {
+                        \Log::error("Failed to update/insert geocode for vendor: {$vendor->id}");
+                    }
                 }
             }
         }
@@ -46,19 +51,21 @@ class GeocodeVendors extends Command
 
     protected function geocodeAddress($address)
     {
-        $apiKey = env('GOOGLE_MAPS_API_KEY'); // Make sure you've defined this in your .env file
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
-            'address' => $address,
+            'address' => urlencode($address),
             'key' => $apiKey,
         ]);
 
-        if ($response->successful() && !empty($response->json('results'))) {
-            return [
-                'lat' => $response->json('results.0.geometry.location.lat'),
-                'lng' => $response->json('results.0.geometry.location.lng'),
-            ];
+        if (!$response->successful() || empty($response->json('results'))) {
+            \Log::error("Geocoding failed for address: $address", ['response' => $response->body()]);
+            return null;
         }
 
-        return null;
+        return [
+            'lat' => $response->json('results.0.geometry.location.lat'),
+            'lng' => $response->json('results.0.geometry.location.lng'),
+        ];
     }
+
 }

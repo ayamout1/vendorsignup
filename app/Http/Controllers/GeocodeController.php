@@ -19,18 +19,20 @@ class GeocodeController extends Controller
         return view('geocode.index', compact('vendors'));
     }
 
-    public function deleteGeocode($vendorId)
-{
-    $affected = DB::connection('suitecrm')->table('vsf_vendornetwork_cstm')
-                  ->where('id_c', $vendorId)
-                  ->update(['latitude_c' => null, 'longitude_c' => null]);
+    public function deleteGeocode(Request $request, $vendorId)
+    {
+        // Assuming 'latitude_c' and 'longitude_c' can be set to NULL to indicate deletion
+        $updated = DB::connection('suitecrm')->table('vsf_vendornetwork_cstm')
+                    ->where('id_c', $vendorId)
+                    ->update(['latitude_c' => null, 'longitude_c' => null]);
 
-    if ($affected) {
-        return back()->with('success', 'Geocode deleted successfully.');
-    } else {
-        return back()->with('error', 'Failed to delete geocode.');
+        if ($updated) {
+            return back()->with('success', 'Geocode deleted successfully.');
+        } else {
+            return back()->with('error', 'Failed to delete geocode.');
+        }
     }
-}
+
 
 
     public function geocodeVendor(Request $request, $vendorId)

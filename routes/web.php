@@ -26,7 +26,7 @@ Route::get('/vendor-form', function () {
 Route::get('/fileshow/{email}', [FileUploadController::class, 'show'])->name('file.show');
 Route::get('/geocode', [App\Http\Controllers\GeocodeController::class, 'index'])->name('geocode.index');
 Route::post('/geocode/{vendorId}', [App\Http\Controllers\GeocodeController::class, 'geocodeVendor'])->name('geocode.vendor');
-Route::post('/geocode/delete/{vendorId}', [App\Http\Controllers\GeocodeController::class, 'deleteGeocode'])->name('geocode.delete');
+Route::delete('/geocode/{vendorId}', [App\Http\Controllers\GeocodeController::class, 'deleteGeocode'])->name('geocode.delete');
 
 
 Route::put('/file/{email}', [FileUploadController::class, 'update'])->name('file.update');

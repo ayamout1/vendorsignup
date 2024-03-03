@@ -31,18 +31,18 @@
             <td>{{ $vendor->longitude_c }}</td>
             <td>
                 @if(!empty($vendor->latitude_c) && !empty($vendor->longitude_c))
-                <form action="{{ route('geocode.delete', ['vendorId' => $vendor->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit">Delete Geocode</button>
-                </form>
-            @else
+<form action="{{ route('geocode.delete', ['vendorId' => $vendor->id]) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Delete Geocode</button>
+</form>
+@endif
+
             @if(empty($vendor->latitude_c) || empty($vendor->longitude_c))
-            <form action="{{ route('geocode.vendor', ['vendorID' => $vendor->id]) }}" method="POST">
+            <form action="{{ route('geocode.vendor', ['vendorId' => $vendor->id]) }}" method="POST">
                 @csrf
                 <button type="submit">Geocode</button>
-                @endif
             </form>
-            @endif
 
 
             </td>

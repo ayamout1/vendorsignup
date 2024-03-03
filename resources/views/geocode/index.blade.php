@@ -24,21 +24,21 @@
     </thead>
     <tbody>
         @foreach($vendors as $vendor)
-            <tr>
-                <td>{{ $vendor->id }}</td>
-                <td>{{ $vendor->name }}</td>
-                <td>{{ $vendor->latitude_c }}</td>
-                <td>{{ $vendor->longitude_c }}</td>
-                <td>
-                    @if(!$vendor->latitude_c || !$vendor->longitude_c)
-                        <form action="{{ route('geocode.vendor', ['vendorId' => $vendor->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit">Geocode</button>
-                        </form>
-                    @endif
-                </td>
-            </tr>
+        <tr>
+            <td>{{ $vendor->name }}</td>
+            <td>{{ $vendor->latitude_c }}</td>
+            <td>{{ $vendor->longitude_c }}</td>
+            <td>
+                @if(empty($vendor->latitude_c) || empty($vendor->longitude_c))
+                    <form action="{{ route('geocode.vendor', ['vendorID' => $vendor->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit">Geocode</button>
+                    </form>
+                @endif
+            </td>
+        </tr>
         @endforeach
+
     </tbody>
 </table>
 </body>

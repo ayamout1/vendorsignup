@@ -43,7 +43,7 @@
                 @csrf
                 <button type="submit">Geocode</button>
             </form>
-
+@endif
 
             </td>
         </tr>

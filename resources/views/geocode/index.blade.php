@@ -36,11 +36,14 @@
                     <button type="submit">Delete Geocode</button>
                 </form>
             @else
+            @if(empty($vendor->latitude_c) || empty($vendor->longitude_c))
             <form action="{{ route('geocode.vendor', ['vendorID' => $vendor->id]) }}" method="POST">
                 @csrf
                 <button type="submit">Geocode</button>
+                @endif
             </form>
             @endif
+
 
             </td>
         </tr>

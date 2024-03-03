@@ -25,6 +25,7 @@
     <tbody>
         @foreach($vendors as $vendor)
         <tr>
+            <td>{{ $vendor->id }}</td>
             <td>{{ $vendor->name }}</td>
             <td>{{ $vendor->latitude_c }}</td>
             <td>{{ $vendor->longitude_c }}</td>

@@ -25,13 +25,15 @@ class GeocodeController extends Controller
                     ->where('id', $vendorId)
                     ->first();
 
+        $address = "{$vendor->address_c}, {$vendor->city_c}, {$vendor->state_c} {$vendor->postal_c}";
+
         if (!$vendor) {
             return back()->with('error', 'Vendor not found.');
         }
 
         $apiKey = 'AIzaSyC-uinPGEDW4voYvER7uMRLCxFE6z3aRUM';
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
-            'address' => urlencode($vendor->address), // Ensure you have an address field or combine fields to create an address
+            'address' => $address, // Ensure you have an address field or combine fields to create an address
             'key' => $apiKey,
         ]);
 

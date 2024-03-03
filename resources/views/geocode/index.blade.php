@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Geocode Address</title>
+    <meta charset="UTF-8">
+    <title>Vendors List</title>
 </head>
 <body>
-    <h1>Geocode an Address</h1>
-
-    @if(session('error'))
-        <p style="color: red;">{{ session('error') }}</p>
-    @endif
-
-    <form action="{{ route('geocode') }}" method="POST">
-        @csrf
-        <input type="text" name="address" placeholder="Enter an address" value="{{ old('address') }}" required>
-        <button type="submit">Geocode</button>
-    </form>
-
-    @if(session('data'))
-        <h2>Results</h2>
-        <p><strong>Address:</strong> {{ session('data')['formatted_address'] }}</p>
-        <p><strong>Latitude:</strong> {{ session('data')['geometry']['location']['lat'] }}</p>
-        <p><strong>Longitude:</strong> {{ session('data')['geometry']['location']['lng'] }}</p>
-    @endif
+<h1>Vendors</h1>
+@if(session('success'))
+    <p style="color: green;">{{ session('success') }}</p>
+@endif
+@if(session('error'))
+    <p style="color: red;">{{ session('error') }}</p>
+@endif
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($vendors as $vendor)
+            <tr>
+                <td>{{ $vendor->id }}</td>
+                <td>{{ $vendor->name }}</td>
+                <td>{{ $vendor->latitude_c }}</td>
+                <td>{{ $vendor->longitude_c }}</td>
+                <td>
+                    @if(!$vendor->latitude_c || !$vendor->longitude_c)
+                        <form action="{{ route('geocode.vendor', ['vendorId' => $vendor->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit">Geocode</button>
+                        </form>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 </body>
 </html>

@@ -16,7 +16,7 @@ class GeocodeController extends Controller
                     ->select('vn.id', 'vn.name', 'vnc.latitude_c', 'vnc.longitude_c')
                     ->get();
 
-        return view('vendors.index', compact('vendors'));
+        return view('geocode.index', compact('vendors'));
     }
 
     public function geocodeVendor(Request $request, $vendorId)
